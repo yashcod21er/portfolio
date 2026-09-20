@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="og-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#080B16"/>
+      <stop offset="50%" stop-color="#10182B"/>
+      <stop offset="100%" stop-color="#080B16"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#og-grad)"/>
+  
+  <!-- Cyber Grid -->
+  <g stroke="rgba(57, 223, 255, 0.08)" stroke-width="1">
+    <line x1="0" y1="100" x2="1200" y2="100"/>
+    <line x1="0" y1="200" x2="1200" y2="200"/>
+    <line x1="0" y1="300" x2="1200" y2="300"/>
+    <line x1="0" y1="400" x2="1200" y2="400"/>
+    <line x1="0" y1="500" x2="1200" y2="500"/>
+    <line x1="200" y1="0" x2="200" y2="630"/>
+    <line x1="400" y1="0" x2="400" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="800" y1="0" x2="800" y2="630"/>
+    <line x1="1000" y1="0" x2="1000" y2="630"/>
+  </g>
+
+  <!-- Glowing Outer Frame -->
+  <rect x="40" y="40" width="1120" height="550" rx="24" fill="none" stroke="#39DFFF" stroke-width="2" stroke-opacity="0.4"/>
+  
+  <!-- Header system badge -->
+  <rect x="90" y="90" width="160" height="34" rx="17" fill="#111D3A" stroke="#39DFFF" stroke-opacity="0.5"/>
+  <circle cx="112" cy="107" r="5" fill="#39DFFF"/>
+  <text x="128" y="112" fill="#39DFFF" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="bold">YASH.OS v1.0</text>
+
+  <!-- Title & Description -->
+  <text x="90" y="230" fill="#FFFFFF" font-family="'Orbitron', sans-serif" font-weight="900" font-size="64" letter-spacing="2">YASH HOGADE</text>
+  <text x="90" y="290" fill="#39DFFF" font-family="'Orbitron', sans-serif" font-weight="700" font-size="28" letter-spacing="4">COMPUTER ENGINEERING STUDENT &amp; FULL-STACK DEVELOPER</text>
+  
+  <text x="90" y="360" fill="#94A3B8" font-family="'Inter', sans-serif" font-size="22">AISSMS College of Engineering, Pune · Savitribai Phule Pune University</text>
+  <text x="90" y="400" fill="#64748B" font-family="'Inter', sans-serif" font-size="20">Interactive 3D Digital Operating System · Modern Web &amp; Scalable Applications</text>
+
+  <!-- Technology pills -->
+  <g transform="translate(90, 470)">
+    <rect x="0" y="0" width="120" height="42" rx="8" fill="#111D3A" stroke="#39DFFF" stroke-opacity="0.3"/>
+    <text x="30" y="26" fill="#39DFFF" font-family="'JetBrains Mono'" font-size="14" font-weight="600">REACT</text>
+
+    <rect x="140" y="0" width="130" height="42" rx="8" fill="#111D3A" stroke="#39DFFF" stroke-opacity="0.3"/>
+    <text x="165" y="26" fill="#39DFFF" font-family="'JetBrains Mono'" font-size="14" font-weight="600">THREE.JS</text>
+
+    <rect x="290" y="0" width="130" height="42" rx="8" fill="#111D3A" stroke="#9B7BFF" stroke-opacity="0.3"/>
+    <text x="320" y="26" fill="#9B7BFF" font-family="'JetBrains Mono'" font-size="14" font-weight="600">NODE.JS</text>
+
+    <rect x="440" y="0" width="140" height="42" rx="8" fill="#111D3A" stroke="#9B7BFF" stroke-opacity="0.3"/>
+    <text x="465" y="26" fill="#9B7BFF" font-family="'JetBrains Mono'" font-size="14" font-weight="600">EXPRESS</text>
+
+    <rect x="600" y="0" width="110" height="42" rx="8" fill="#111D3A" stroke="#38BDF8" stroke-opacity="0.3"/>
+    <text x="635" y="26" fill="#38BDF8" font-family="'JetBrains Mono'" font-size="14" font-weight="600">SQL</text>
+
+    <rect x="730" y="0" width="110" height="42" rx="8" fill="#111D3A" stroke="#A855F7" stroke-opacity="0.3"/>
+    <text x="765" y="26" fill="#A855F7" font-family="'JetBrains Mono'" font-size="14" font-weight="600">C++</text>
+  </g>
+</svg>
