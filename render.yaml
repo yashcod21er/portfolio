@@ -1,6 +1,7 @@
 services:
-  - type: static
+  - type: web
     name: yash-portfolio
+    runtime: static
     buildCommand: npm install --legacy-peer-deps && npm run build
     staticPublishPath: ./dist
     envVars:
