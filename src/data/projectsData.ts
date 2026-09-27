@@ -9,19 +9,20 @@ export const projectsData: Project[] = [
   {
     id: 'proj-1',
     slug: 'airbnb-clone',
-    title: 'Airbnb Clone',
-    tagline: 'Full-Stack Accommodation Platform Recreation',
-    description: 'A web application inspired by accommodation booking platforms, built to practice full-stack web development and RESTful architecture.',
+    title: 'UrbanStay (Airbnb Clone)',
+    tagline: 'Full-Stack Accommodation Platform & Marketplace',
+    description: 'An accommodation booking platform named UrbanStay, built with responsive category filtering, detailed stay cards, and dynamic RESTful route controllers.',
     category: 'Full-Stack',
     status: 'COMPLETED',
     technologies: ['Node.js', 'Express.js', 'EJS', 'REST API', 'Bootstrap', 'HTML', 'CSS'],
-    github: 'https://github.com', // Replace with specific repository link
-    demo: '#', // Replace with live demo if deployed
-    image: '/projects/airbnb-preview.svg',
+    github: 'https://github.com/yashcod21er',
+    demo: 'https://major-project-q25u.onrender.com',
+    image: '/projects/airbnb-preview.png',
     problem: 'Understanding complete end-to-end full-stack web architecture: connecting server-side route controllers, dynamic database-backed templating, and REST conventions in an industry-standard format.',
     solution: 'Designed an Express.js server utilizing server-side EJS templating and RESTful endpoints to manage listing entries, user interactions, and responsive card layouts modeled after modern hospitality platforms.',
     features: [
       'Full CRUD functionality for accommodation listings',
+      'Dynamic category filters (Beach, Mountain, Luxury, Camping)',
       'Server-side rendering via EJS dynamic templates',
       'RESTful API routing architecture with Express.js',
       'Responsive design using Bootstrap grid system',
@@ -38,19 +39,19 @@ export const projectsData: Project[] = [
     slug: 'spotify-clone',
     title: 'Spotify Clone',
     tagline: 'Interactive Music Streaming UI & Audio Player',
-    description: 'A frontend recreation inspired by modern music streaming interfaces, focused on responsive UI development and frontend interactions.',
+    description: 'A dark-mode frontend recreation inspired by Spotify, featuring dynamic playback controls, interactive song playlists, responsive sidebar navigation, and custom audio seekbars.',
     category: 'Frontend',
     status: 'COMPLETED',
-    technologies: ['HTML', 'CSS', 'JavaScript'],
-    github: 'https://github.com', // Replace with specific repository link
+    technologies: ['HTML5', 'CSS3', 'JavaScript', 'Web Audio API', 'DOM Manipulation'],
+    github: 'https://github.com/yashcod21er',
     demo: '#',
-    image: '/projects/spotify-preview.svg',
+    image: '/projects/spotify-preview.png',
     problem: 'Replicating intricate desktop-to-mobile responsive streaming layouts and managing dynamic DOM audio controls without relying on heavy frameworks.',
     solution: 'Engineered a pixel-precise, responsive frontend using pure HTML, modern CSS (Flexbox & Grid), and vanilla JavaScript to handle interactive playback states, playlists, and responsive navigation.',
     features: [
       'Interactive audio playback controls (Play, Pause, Next, Previous)',
       'Responsive navigation drawer and sticky audio playback bar',
-      'Dynamic track listing cards with hover glow states',
+      'Curated sections for Top 50 Global and Trending Now Near You',
       'Custom styled seekbar and volume slider interactions',
       'Fluid mobile-first responsive layout transitions'
     ],
@@ -62,50 +63,57 @@ export const projectsData: Project[] = [
   },
   {
     id: 'proj-3',
-    slug: 'recipehub',
-    title: 'RecipeHub',
-    tagline: 'Interactive Recipe Discovery & Culinary Showcase',
-    description: 'A web project focused on discovering and presenting culinary recipes through an interactive web interface with intuitive search and filtering.',
-    category: 'Frontend',
-    status: 'IN PROGRESS',
-    technologies: ['React', 'JavaScript', 'Tailwind CSS', 'REST API'],
-    github: 'https://github.com',
-    demo: '#',
-    image: '/projects/recipehub-preview.svg',
-    problem: 'Providing an intuitive, distraction-free interface for browsing culinary recipes with dietary categorization and real-time search filtering.',
-    solution: 'Currently developing a modular component-driven interface allowing users to explore recipes, view step-by-step instructions, and filter by ingredients or dietary preferences.',
+    slug: 'zerodha-clone',
+    title: 'Zerodha Clone',
+    tagline: 'Full-Stack Investment & Trading Dashboard Recreation',
+    description: "An investment and trading platform recreation modeled after Zerodha's Kite and Console platforms, featuring portfolio analytics, holdings breakdown, and clean financial visualization.",
+    category: 'Full-Stack',
+    status: 'COMPLETED',
+    technologies: ['React', 'Node.js', 'Express.js', 'MongoDB', 'Chart.js', 'REST API', 'Tailwind CSS'],
+    github: 'https://github.com/yashcod21er',
+    demo: 'https://zerodha-clone-1-j33u.onrender.com',
+    image: '/projects/zerodha-preview.png',
+    problem: 'Building an uncluttered, high-density financial dashboard displaying multi-asset portfolios, real-time unrealized P&L, holdings distribution, and stock market watchlists.',
+    solution: "Developed a component-driven investment platform replicating Zerodha's clean minimalist aesthetic, featuring interactive portfolio charts, asset allocation breakdowns, and account management.",
     features: [
-      'Interactive recipe search and multi-category filtering (In Progress)',
-      'Step-by-step cooking guide view with ingredient check-offs',
-      'Responsive grid layout with high-contrast culinary cards',
-      'Preparation time, servings, and difficulty tag indicators'
+      'Clean minimalist landing page and trading dashboard',
+      'Holdings & equity distribution charts with P&L tracking',
+      'Market watchlists and commodity position summaries',
+      'Interactive navigation between Coin, Kite, and Console views',
+      'Responsive financial charts and data visualization'
     ],
     architectureHighlights: [
-      'Component-based UI state management',
-      'Optimized client-side search filtering algorithms'
+      'Component-driven state management for portfolio analytics',
+      'RESTful API integration for stock quotes and asset distribution',
+      'Modular financial widget architecture'
     ]
   },
   {
     id: 'proj-4',
-    slug: 'ai-stock-market',
-    title: 'AI Stock Market Intelligence',
-    tagline: 'Algorithmic Financial Analysis & Trend Visualizer',
-    description: 'A planned engineering project exploring financial market data retrieval, algorithmic indicators, and predictive time-series visualization.',
-    category: 'Systems & AI',
-    status: 'PLANNED',
-    technologies: ['Python', 'JavaScript', 'REST APIs', 'Data Visualization', 'SQL'],
-    github: 'https://github.com',
-    image: '/projects/aimarket-preview.svg',
-    problem: 'Making complex stock price movements and technical indicators digestible through clean visual charts and automated statistical summaries.',
-    solution: 'Architecting an analytical dashboard integrating market data feeds, moving average computation, and statistical trend breakdowns.',
+    slug: 'nexa-ai',
+    title: 'NexaAI',
+    tagline: 'AI Conversational Assistant & Intelligent Agent',
+    description: 'An AI-driven conversational agent engineered with real-time prompt streaming, dynamic session chat history, and contextual natural language processing.',
+    category: 'Full-Stack',
+    status: 'COMPLETED',
+    technologies: ['React.js', 'Node.js', 'JavaScript (ES6+)', 'AI/ML APIs', 'REST APIs', 'Tailwind CSS'],
+    github: 'https://github.com/yashcod21er',
+    demo: '#',
+    image: '/projects/nexa-ai-preview.png',
+    problem: 'Delivering low-latency conversational responses with dynamic token streaming while managing session-based conversation context, state persistence, and responsive UI layout.',
+    solution: 'Engineered an interactive conversational assistant in React.js and Node.js. Integrated backend AI API endpoints to stream contextual replies in real-time, maintain clean session histories, and render formatted markdown and code blocks.',
     features: [
-      'Historical price chart integration with technical indicators (Planned)',
-      'Algorithmic trend signal calculation',
-      'Configurable stock watchlist and comparative analysis view'
+      'Real-time prompt streaming with smooth token-by-token rendering',
+      'Dynamic conversation history sidebar with instant session switching',
+      'Context-aware natural language processing via backend API integration',
+      'Syntax-highlighted code output with one-click copy and formatting',
+      'Prompt quick-action chips for code analysis, summarization, and brainstorming',
+      'Responsive modern dark-mode interface with mobile navigation drawer'
     ],
     architectureHighlights: [
-      'Planned API pipeline for fetching real-time financial quotes',
-      'Optimized time-series plotting using canvas-based rendering'
+      'Node.js backend proxy handling API queries and stream forwarding',
+      'React state management for real-time stream buffers and conversation history',
+      'Clean separation of chat UI components and API communication layers'
     ]
   }
 ];

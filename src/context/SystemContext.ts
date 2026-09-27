@@ -1,7 +1,11 @@
 import { createContext, useContext } from 'react';
-import type { SectionId, QualityTier, ThemeMode } from '../types/portfolio';
+import type { SectionId, QualityTier, ThemeMode, AppView } from '../types/portfolio';
 
 export interface SystemContextType {
+  // Page Navigation & Routing
+  currentView: AppView;
+  navigateToView: (view: AppView) => void;
+
   theme: ThemeMode;
   toggleTheme: () => void;
   setTheme: (theme: ThemeMode) => void;
@@ -22,7 +26,13 @@ export interface SystemContextType {
   // Audio UI feedback
   audioEnabled: boolean;
   toggleAudio: () => void;
-  triggerSound: (type: 'hover' | 'click' | 'modal' | 'command' | 'boot') => void;
+  triggerSound: (type: 'hover' | 'click' | 'modal' | 'command' | 'boot' | 'thock' | 'lamp' | 'sip' | 'tape' | 'victory') => void;
+
+  // Interactive Studio Gadgets
+  lampOn: boolean;
+  toggleLamp: () => void;
+  lofiPlaying: boolean;
+  toggleLofi: () => void;
 
   // Modals & Panels
   terminalOpen: boolean;
@@ -31,11 +41,16 @@ export interface SystemContextType {
   setCommandPaletteOpen: (open: boolean) => void;
   settingsModalOpen: boolean;
   setSettingsModalOpen: (open: boolean) => void;
+  resumeModalOpen: boolean;
+  setResumeModalOpen: (open: boolean) => void;
 
   // Deep linked project modal
   activeProjectSlug: string | null;
   openProjectModal: (slug: string) => void;
   closeProjectModal: () => void;
+
+  // Motion & Accessibility
+  reducedMotion: boolean;
 
   // Session stats
   sessionUptime: number;

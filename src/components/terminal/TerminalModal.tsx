@@ -20,7 +20,7 @@ export const TerminalModal: React.FC = () => {
     {
       id: 'init-1',
       type: 'system',
-      text: `YASH.OS [Version ${portfolioConfig.systemVersion}] Terminal Shell`,
+      text: `YASH — DIGITAL STUDIO [v${portfolioConfig.systemVersion}] Developer Shell`,
     },
     {
       id: 'init-2',
@@ -285,26 +285,26 @@ Location: ${portfolioConfig.location}`,
       role="dialog"
       aria-modal="true"
       aria-labelledby="terminal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#111318]/50 backdrop-blur-md animate-in fade-in duration-150"
     >
       <div
         ref={trapRef}
-        className={`w-full bg-[#080B16] border border-[#39DFFF]/40 rounded-2xl shadow-[0_0_60px_rgba(57,223,255,0.25)] flex flex-col overflow-hidden transition-all duration-300 ${
-          isMaximized ? 'h-[94vh] max-w-[96vw]' : 'h-[540px] max-w-2xl'
+        className={`w-full bg-[#111318] border border-[#232733] rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 ${
+          isMaximized ? 'h-[94vh] max-w-[96vw]' : 'h-[520px] max-h-[86vh] max-w-2xl'
         }`}
       >
         {/* Terminal Header Bar */}
-        <div className="flex items-center justify-between px-4 py-3 bg-[#10182B] border-b border-[#1E293B]">
+        <div className="flex items-center justify-between px-4 py-3 bg-[#181C26] border-b border-[#232733]">
           <div className="flex items-center gap-2.5">
             <TerminalIcon className="w-4 h-4 text-[#10B981]" />
-            <span id="terminal-title" className="text-xs font-mono font-bold text-white tracking-wider">
-              YASH.OS // SHELL v1.0
+            <span id="terminal-title" className="text-xs font-mono font-bold text-[#F6F5F0] tracking-wider">
+              YASH // STUDIO TERMINAL SHELL
             </span>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsMaximized(!isMaximized)}
-              className="p-1.5 rounded text-[#94A3B8] hover:text-white hover:bg-[#1E293B] transition-colors cursor-pointer"
+              className="p-1.5 rounded text-[#94A3B8] hover:text-[#F6F5F0] hover:bg-[#232733] transition-colors cursor-pointer"
               title={isMaximized ? 'Restore window' : 'Maximize window'}
               aria-label={isMaximized ? 'Restore window' : 'Maximize window'}
             >
@@ -312,7 +312,7 @@ Location: ${portfolioConfig.location}`,
             </button>
             <button
               onClick={() => setTerminalOpen(false)}
-              className="p-1.5 rounded text-[#94A3B8] hover:text-[#EF4444] hover:bg-[#1E293B] transition-colors cursor-pointer"
+              className="p-1.5 rounded text-[#94A3B8] hover:text-[#EF4444] hover:bg-[#232733] transition-colors cursor-pointer"
               title="Close terminal (Esc)"
               aria-label="Close terminal"
             >
@@ -323,13 +323,13 @@ Location: ${portfolioConfig.location}`,
 
         {/* Scrollable Terminal Output Window */}
         <div
-          className="flex-1 p-4 overflow-y-auto font-mono text-xs space-y-2.5 leading-relaxed selection:bg-[#39DFFF]/30"
+          className="flex-1 p-4 overflow-y-auto font-mono text-xs space-y-2.5 leading-relaxed selection:bg-[#2563EB]/40"
           aria-live="polite"
         >
           {history.map((line) => {
             if (line.type === 'input') {
               return (
-                <div key={line.id} className="text-[#39DFFF] font-bold">
+                <div key={line.id} className="text-[#60A5FA] font-bold">
                   {line.text}
                 </div>
               );
@@ -343,7 +343,7 @@ Location: ${portfolioConfig.location}`,
             }
             if (line.type === 'system') {
               return (
-                <div key={line.id} className="text-[#9B7BFF]">
+                <div key={line.id} className="text-[#818CF8]">
                   {line.text}
                 </div>
               );
@@ -358,7 +358,7 @@ Location: ${portfolioConfig.location}`,
         </div>
 
         {/* Active Command Prompt Input */}
-        <div className="flex items-center gap-2 px-4 py-3 bg-[#080B16] border-t border-[#1E293B]">
+        <div className="flex items-center gap-2 px-4 py-3 bg-[#111318] border-t border-[#232733]">
           <span className="text-[#10B981] font-mono text-xs font-bold">{'>'}</span>
           <input
             ref={inputRef}
@@ -367,10 +367,10 @@ Location: ${portfolioConfig.location}`,
             onChange={(e) => setInputVal(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Type command here (e.g. 'help', 'skills', 'about')..."
-            className="flex-1 bg-transparent border-none outline-none font-mono text-xs text-white placeholder-[#475569]"
+            className="flex-1 bg-transparent border-none outline-none font-mono text-xs text-[#F6F5F0] placeholder-[#64748B]"
             autoFocus
           />
-          <span className="w-2 h-4 bg-[#39DFFF] animate-pulse" />
+          <span className="w-2 h-4 bg-[#60A5FA] animate-pulse" />
         </div>
       </div>
     </div>

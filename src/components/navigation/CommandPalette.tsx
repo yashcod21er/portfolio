@@ -36,6 +36,7 @@ export const CommandPalette: React.FC = () => {
     openProjectModal,
     setTerminalOpen,
     setSettingsModalOpen,
+    setResumeModalOpen,
     triggerSound,
   } = useSystem();
 
@@ -54,58 +55,69 @@ export const CommandPalette: React.FC = () => {
     {
       id: 'sys-theme',
       category: 'SYSTEM',
-      label: theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme',
-      detail: 'Toggle between Neural White and Cyber Midnight',
-      icon: theme === 'dark' ? <Sun className="w-4 h-4 text-[#F59E0B]" /> : <Moon className="w-4 h-4 text-[#7C3AED]" />,
+      label: theme === 'dark' ? 'Switch to Studio Light Theme' : 'Switch to Studio Dark Theme',
+      detail: 'Toggle workspace lighting theme',
+      icon: theme === 'dark' ? <Sun className="w-4 h-4 text-[#F59E0B]" /> : <Moon className="w-4 h-4 text-[#2563EB]" />,
       action: toggleTheme,
     },
     // Navigation
     {
+      id: 'nav-journey',
+      category: 'NAVIGATION',
+      label: 'Go to 04 // Journey & Trajectory',
+      detail: 'The Road Here: Engineering progression & milestones',
+      icon: <Compass className="w-4 h-4 text-[#2563EB]" />,
+      action: () => {
+        scrollToSection('journey');
+        setCommandPaletteOpen(false);
+      },
+    },
+    {
       id: 'nav-home',
       category: 'NAVIGATION',
-      label: 'Go to Home / Hero',
-      detail: 'Developer overview & callsign',
-      icon: <Compass className="w-4 h-4 text-[var(--accent-cyan)]" />,
+      label: 'Go to Hero & Workstation',
+      detail: 'Developer overview, callsign & 3D studio',
+      icon: <Compass className="w-4 h-4 text-[#2563EB]" />,
       action: () => scrollToSection('home'),
     },
     {
       id: 'nav-about',
       category: 'NAVIGATION',
-      label: 'Go to About Me',
-      detail: 'Bio, AISSMS College of Engineering education',
-      icon: <Layers className="w-4 h-4 text-[var(--accent-cyan)]" />,
+      label: 'Go to 01 // About',
+      detail: 'Engineering background, AISSMS College of Engineering Pune',
+      icon: <Layers className="w-4 h-4 text-[#2563EB]" />,
       action: () => scrollToSection('about'),
     },
     {
       id: 'nav-skills',
       category: 'NAVIGATION',
-      label: 'Go to Skills Orbit Matrix',
-      detail: 'Frontend, Backend, Database, Programming, Tools',
-      icon: <Sparkles className="w-4 h-4 text-[var(--accent-cyan)]" />,
+      label: 'Go to 02 // Stack',
+      detail: 'Frontend, Backend, Database, Programming, Tools matrix',
+      icon: <Sparkles className="w-4 h-4 text-[#2563EB]" />,
       action: () => scrollToSection('skills'),
     },
     {
       id: 'nav-projects',
       category: 'NAVIGATION',
-      label: 'Go to Projects Gallery',
-      detail: 'Interactive showcases & live code',
-      icon: <FolderGit2 className="w-4 h-4 text-[var(--accent-cyan)]" />,
+      label: 'Go to 03 // Selected Work',
+      detail: 'Full-stack case studies & verified production code',
+      icon: <FolderGit2 className="w-4 h-4 text-[#2563EB]" />,
       action: () => scrollToSection('projects'),
     },
     {
       id: 'nav-journey',
       category: 'NAVIGATION',
-      label: 'Go to Developer Journey',
-      detail: 'Computer Engineering milestones',
-      icon: <Compass className="w-4 h-4 text-[var(--accent-cyan)]" />,
+      label: 'Go to 04 // Journey',
+      detail: 'Computer Engineering academic & engineering milestones',
+      icon: <Compass className="w-4 h-4 text-[#2563EB]" />,
       action: () => scrollToSection('journey'),
     },
     {
       id: 'nav-contact',
       category: 'NAVIGATION',
-      label: 'Go to Contact Portal',
-      detail: 'Send message or collaborate',
-      icon: <ExternalLink className="w-4 h-4 text-[var(--accent-cyan)]" />,
+      label: 'Go to 05 // Contact',
+      detail: 'Direct transmission channel & collaboration inquiries',
+      icon: <ExternalLink className="w-4 h-4 text-[#2563EB]" />,
       action: () => scrollToSection('contact'),
     },
     // Projects
@@ -114,20 +126,28 @@ export const CommandPalette: React.FC = () => {
       category: 'PROJECTS' as const,
       label: p.title,
       detail: `${p.category} · ${p.status}`,
-      icon: <FolderGit2 className="w-4 h-4 text-[var(--accent-violet)]" />,
+      icon: <FolderGit2 className="w-4 h-4 text-[#4F46E5]" />,
       action: () => openProjectModal(p.slug),
     })),
     // System Actions
     {
       id: 'sys-terminal',
       category: 'SYSTEM',
-      label: 'Launch YASH.OS Terminal',
-      detail: 'Interactive CLI prompt',
+      label: 'Open Studio Terminal Shell',
+      detail: 'Monospace CLI environment with system commands',
       icon: <Terminal className="w-4 h-4 text-[#10B981]" />,
       action: () => setTerminalOpen(true),
     },
     {
-      id: 'sys-resume',
+      id: 'sys-resume-modal',
+      category: 'SYSTEM',
+      label: 'View Resume & Credentials (Interactive)',
+      detail: 'Preview Yash Hogade official resume document & verification',
+      icon: <FileText className="w-4 h-4 text-[#2563EB]" />,
+      action: () => setResumeModalOpen(true),
+    },
+    {
+      id: 'sys-resume-dl',
       category: 'SYSTEM',
       label: 'Download Resume (PDF)',
       detail: portfolioConfig.resumePath,
@@ -137,9 +157,9 @@ export const CommandPalette: React.FC = () => {
     {
       id: 'sys-settings',
       category: 'SYSTEM',
-      label: 'Open Graphics & Audio Settings',
-      detail: 'Auto, High, Medium, Low, WebGL Off',
-      icon: <Sliders className="w-4 h-4 text-[var(--accent-cyan)]" />,
+      label: 'Open Graphics & Performance Settings',
+      detail: 'Auto, High, Medium, Low, WebGL Off toggles',
+      icon: <Sliders className="w-4 h-4 text-[#2563EB]" />,
       action: () => setSettingsModalOpen(true),
     },
     {
@@ -147,7 +167,7 @@ export const CommandPalette: React.FC = () => {
       category: 'SYSTEM',
       label: 'Open GitHub Profile',
       detail: portfolioConfig.socials.github,
-      icon: <ExternalLink className="w-4 h-4 text-[var(--text-muted)]" />,
+      icon: <ExternalLink className="w-4 h-4 text-[#646873]" />,
       action: () => window.open(portfolioConfig.socials.github, '_blank'),
     },
     {
@@ -155,7 +175,7 @@ export const CommandPalette: React.FC = () => {
       category: 'SYSTEM',
       label: 'Open LinkedIn Profile',
       detail: portfolioConfig.socials.linkedin,
-      icon: <ExternalLink className="w-4 h-4 text-[var(--text-muted)]" />,
+      icon: <ExternalLink className="w-4 h-4 text-[#646873]" />,
       action: () => window.open(portfolioConfig.socials.linkedin, '_blank'),
     },
   ];
@@ -201,37 +221,37 @@ export const CommandPalette: React.FC = () => {
       role="dialog"
       aria-modal="true"
       aria-labelledby="cmd-palette-title"
-      className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] px-4 bg-black/60 dark:bg-black/80 backdrop-blur-md animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] px-4 bg-[#111318]/40 backdrop-blur-md animate-in fade-in duration-150"
       onClick={() => setCommandPaletteOpen(false)}
     >
       <div
         ref={trapRef}
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-xl rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)] shadow-[0_15px_50px_rgba(0,0,0,0.2)] dark:shadow-[0_0_60px_rgba(57,223,255,0.25)] overflow-hidden"
+        className="w-full max-w-xl rounded-2xl bg-[#FFFFFF] border border-[#DAD8D1] shadow-2xl overflow-hidden"
       >
         {/* Search Header */}
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[var(--border-color)] bg-[var(--bg-elevated)]/60">
-          <Search className="w-5 h-5 text-[var(--accent-cyan)]" />
+        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[#DAD8D1] bg-[#F6F5F0]">
+          <Search className="w-5 h-5 text-[#2563EB]" />
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => handleQueryChange(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Search commands, theme, projects, skills, links..."
-            className="w-full bg-transparent border-none outline-none text-[var(--text-primary)] placeholder-[var(--text-muted)] text-sm font-sans"
+            placeholder="Search studio commands, projects, stack, links..."
+            className="w-full bg-transparent border-none outline-none text-[#111318] placeholder-[#8E929D] text-sm font-sans"
             aria-autocomplete="list"
           />
-          <kbd className="hidden sm:inline-flex px-2 py-0.5 rounded bg-[var(--bg-main)] border border-[var(--border-color)] text-[10px] font-mono text-[var(--text-muted)]">
+          <kbd className="hidden sm:inline-flex px-2 py-0.5 rounded bg-[#FFFFFF] border border-[#DAD8D1] text-[10px] font-mono text-[#646873]">
             ESC
           </kbd>
         </div>
 
         {/* Results List */}
-        <div className="max-h-[340px] overflow-y-auto p-2 divide-y divide-[var(--border-color)]/50">
+        <div className="max-h-[340px] overflow-y-auto p-2 divide-y divide-[#DAD8D1]/40 bg-[#FFFFFF]">
           {filtered.length === 0 ? (
-            <div className="p-8 text-center text-xs font-mono text-[var(--text-muted)]">
-              No system commands found matching "{query}"
+            <div className="p-8 text-center text-xs font-mono text-[#8E929D]">
+              No commands found matching "{query}"
             </div>
           ) : (
             filtered.map((item, idx) => {
@@ -246,28 +266,28 @@ export const CommandPalette: React.FC = () => {
                   onMouseEnter={() => setSelectedIndex(idx)}
                   className={`w-full flex items-center justify-between p-3 rounded-xl text-left transition-colors cursor-pointer ${
                     isSelected
-                      ? 'bg-[var(--bg-elevated)] border border-[var(--accent-cyan)]/40'
-                      : 'hover:bg-[var(--bg-elevated)]/50'
+                      ? 'bg-[#F6F5F0] border border-[#2563EB]'
+                      : 'hover:bg-[#F6F5F0]/60'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div
                       className={`w-7 h-7 rounded-lg flex items-center justify-center ${
-                        isSelected ? 'bg-[var(--bg-main)]' : 'bg-[var(--bg-elevated)]'
+                        isSelected ? 'bg-[#FFFFFF] shadow-sm' : 'bg-[#F6F5F0]'
                       }`}
                     >
                       {item.icon}
                     </div>
                     <div>
-                      <div className="text-xs font-mono font-semibold text-[var(--text-primary)]">
+                      <div className="text-xs font-mono font-semibold text-[#111318]">
                         {item.label}
                       </div>
                       {item.detail && (
-                        <div className="text-[11px] text-[var(--text-muted)]">{item.detail}</div>
+                        <div className="text-[11px] text-[#646873]">{item.detail}</div>
                       )}
                     </div>
                   </div>
-                  <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-[var(--bg-main)] border border-[var(--border-color)] text-[var(--text-muted)]">
+                  <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-[#F6F5F0] border border-[#DAD8D1] text-[#646873]">
                     {item.category}
                   </span>
                 </button>
@@ -277,9 +297,9 @@ export const CommandPalette: React.FC = () => {
         </div>
 
         {/* Footer shortcuts */}
-        <div className="flex items-center justify-between px-4 py-2 bg-[var(--bg-main)] border-t border-[var(--border-color)] text-[11px] font-mono text-[var(--text-muted)]">
+        <div className="flex items-center justify-between px-4 py-2.5 bg-[#F6F5F0] border-t border-[#DAD8D1] text-[11px] font-mono text-[#646873]">
           <span>Use ↑ / ↓ to navigate</span>
-          <span>ENTER to select</span>
+          <span>ENTER to execute</span>
         </div>
       </div>
     </div>

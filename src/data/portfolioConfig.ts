@@ -6,39 +6,44 @@ import type { PortfolioConfig } from '../types/portfolio';
  */
 export const portfolioConfig: PortfolioConfig = {
   name: 'Yash Hogade',
-  callsign: 'YASH.OS',
-  role: 'Computer Engineering Student',
-  subRole: 'Full-Stack Developer',
-  tagline: 'I build interactive digital experiences and full-stack applications.',
-  bio: 'I am Yash Hogade, a final-year Computer Engineering student at AISSMS College of Engineering, Pune. I enjoy building modern web applications, exploring full-stack development, and turning ideas into practical digital products.',
+  callsign: 'YASH — DIGITAL STUDIO',
+  role: 'Full-Stack Developer',
+  subRole: 'MERN Stack · B.E. Computer Engineering',
+  tagline: 'Building clean, reliable web applications and practical digital products.',
+  bio: 'I am Yash Hogade, a final-year Computer Engineering student at AISSMS COE (SPPU), Pune. I build full-stack web applications using React.js, Node.js, Express.js, and MongoDB, turning ideas into dependable digital products.',
   location: 'Pune, Maharashtra, India',
   
   education: {
-    degree: 'BE in Computer Engineering (Final Year)',
+    degree: 'B.E. in Computer Engineering',
     college: 'AISSMS College of Engineering',
     city: 'Pune',
     state: 'Maharashtra',
-    university: 'Savitribai Phule Pune University',
-    status: 'Final Year Student (Expected 2026)',
+    university: 'Savitribai Phule Pune University (SPPU)',
+    status: 'SPPU | CGPA: 7.81/10 (Expected 2027)',
+    cgpa: '7.81 / 10',
+    hsc: '74% · Abasaheb Vartak College',
+    ssc: '88% · M.G. Parulekar Mitramandal School',
     focus: [
       'Data Structures & Algorithms',
+      'Database Management Systems (MongoDB & MySQL)',
       'Object-Oriented Programming (C++)',
-      'Database Management Systems (SQL & NoSQL)',
-      'Computer Networks & Web Systems',
-      'Full-Stack Application Engineering'
+      'Operating Systems & Computer Networks',
+      'Full-Stack MERN Engineering (React.js, Node.js, Express.js)'
     ]
   },
 
-  // Update these URLs with your actual profile links
   socials: {
-    github: 'https://github.com', // Replace with your actual GitHub URL e.g. https://github.com/yashhogade
-    linkedin: 'https://linkedin.com', // Replace with your actual LinkedIn URL e.g. https://linkedin.com/in/yashhogade
-    email: 'yashhogade.dev@gmail.com' // Replace with your actual contact email
+    github: 'https://github.com/yashcod21er',
+    linkedin: 'https://linkedin.com/in/yash-hogade',
+    email: 'yashhogade6@gmail.com',
+    phone: '+91 7057327228'
   },
 
-  // Path to your resume inside public/assets/
+  // Path to your verified resume documents inside public/assets/
   resumePath: '/assets/Yash_Hogade_Resume.pdf',
+  resumePreviewImage: '/assets/resume-preview.png',
+  certification: 'Microsoft Certified: Azure AI Fundamentals (Issued: Aug 2026 | ID: w9Rn2-FahH)',
 
-  systemVersion: 'v1.0.4',
+  systemVersion: 'v1.0.5',
   copyrightYear: 2026,
 };

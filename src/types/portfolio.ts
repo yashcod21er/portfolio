@@ -1,6 +1,40 @@
 export type SectionId = 'home' | 'about' | 'skills' | 'projects' | 'journey' | 'contact';
 
+export type AppView = 'portfolio' | 'journey';
+
 export type QualityTier = 'AUTO' | 'HIGH' | 'MEDIUM' | 'LOW' | 'OFF';
+
+export interface JourneyCameraConfig {
+  offset: [number, number, number];
+  lookAtOffset: [number, number, number];
+  fov?: number;
+}
+
+export interface JourneyStation {
+  id: string;
+  slug: string;
+  index: number;
+  numberStr: string;
+  district: string;
+  title: string;
+  subtitle: string;
+  tagline: string;
+  description: string;
+  skills: string[];
+  routeProgress: number; // 0.0 to 1.0 along the road spline
+  worldPosition: [number, number, number];
+  accent: string;
+  camera: JourneyCameraConfig;
+  status: 'COMPLETED' | 'CURRENT' | 'FUTURE';
+}
+
+export interface JourneyProjectLink {
+  slug: string;
+  title: string;
+  tagline: string;
+  category: string;
+  technologies: string[];
+}
 
 export type ThemeMode = 'dark' | 'light';
 
@@ -8,6 +42,7 @@ export interface SocialLinks {
   github: string;
   linkedin: string;
   email: string;
+  phone?: string;
 }
 
 export interface EducationInfo {
@@ -17,6 +52,9 @@ export interface EducationInfo {
   state: string;
   university: string;
   status: string;
+  cgpa?: string;
+  hsc?: string;
+  ssc?: string;
   focus: string[];
 }
 
@@ -31,6 +69,8 @@ export interface PortfolioConfig {
   education: EducationInfo;
   socials: SocialLinks;
   resumePath: string;
+  resumePreviewImage?: string;
+  certification?: string;
   systemVersion: string;
   copyrightYear: number;
 }
@@ -53,6 +93,7 @@ export interface Project {
   image?: string;
   architectureHighlights?: string[];
   category: 'Full-Stack' | 'Frontend' | 'Systems & AI';
+  timeline?: string;
 }
 
 export interface SkillItem {

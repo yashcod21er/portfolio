@@ -1,15 +1,54 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { SectionId, ThemeMode } from '../types/portfolio';
+import type { SectionId, ThemeMode, AppView } from '../types/portfolio';
 import { useAdaptivePerformance } from '../hooks/useAdaptivePerformance';
 import { useScrollSpy } from '../hooks/useScrollSpy';
 import { projectsData } from '../data/projectsData';
 import { playSound } from '../utils/sound';
+import { startLofi, stopLofi } from '../utils/lofiAudio';
 import { SystemContext } from './SystemContext';
 
 export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const performance = useAdaptivePerformance();
   const activeSection = useScrollSpy();
   const [audioEnabled, setAudioEnabled] = useState<boolean>(false);
+
+  // App Page View ('portfolio' | 'journey') with URL sync
+  // App Page View ('portfolio')
+  const [currentView, setCurrentView] = useState<AppView>('portfolio');
+
+  const navigateToView = useCallback((view: AppView) => {
+    setCurrentView(view);
+    if (typeof window !== 'undefined') {
+      window.history.pushState({ view }, '', '#');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const hash = window.location.hash.toLowerCase();
+    if (hash === '#journey') {
+      const el = document.getElementById('journey');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, []);
+
+  // Prefers-reduced-motion accessibility detection
+  const [reducedMotion, setReducedMotion] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
 
   // Theme state: 'dark' or 'light'
   const [theme, setThemeState] = useState<ThemeMode>(() => {
@@ -52,6 +91,7 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [terminalOpen, setTerminalOpen] = useState<boolean>(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState<boolean>(false);
   const [settingsModalOpen, setSettingsModalOpen] = useState<boolean>(false);
+  const [resumeModalOpen, setResumeModalOpen] = useState<boolean>(false);
   
   // Deep-linking URL inspection on initial render: ?project=slug
   const [activeProjectSlug, setActiveProjectSlug] = useState<string | null>(() => {
@@ -104,7 +144,15 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }, [audioEnabled]);
 
+  // Interactive Studio Gadgets
+  const [lampOn, setLampOn] = useState<boolean>(false);
+  const [lofiPlaying, setLofiPlaying] = useState<boolean>(false);
+
   const toggleAudio = useCallback(() => {
+    if (lofiPlaying) {
+      stopLofi();
+      setLofiPlaying(false);
+    }
     setAudioEnabled((prev) => {
       const next = !prev;
       if (next) {
@@ -112,15 +160,37 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       }
       return next;
     });
+  }, [lofiPlaying]);
+
+  const toggleLamp = useCallback(() => {
+    setLampOn((prev) => !prev);
+    playSound('lamp', audioEnabled);
+  }, [audioEnabled]);
+
+  const toggleLofi = useCallback(() => {
+    setAudioEnabled(true);
+    playSound('tape', true);
+    setLofiPlaying((prev) => {
+      const next = !prev;
+      if (next) {
+        startLofi();
+      } else {
+        stopLofi();
+      }
+      return next;
+    });
   }, []);
 
-  const triggerSound = useCallback((type: 'hover' | 'click' | 'modal' | 'command' | 'boot') => {
+  const triggerSound = useCallback((type: 'hover' | 'click' | 'modal' | 'command' | 'boot' | 'thock' | 'lamp' | 'sip' | 'tape' | 'victory') => {
     playSound(type, audioEnabled);
   }, [audioEnabled]);
 
   return (
     <SystemContext.Provider
       value={{
+        currentView,
+        navigateToView,
+
         theme,
         toggleTheme,
         setTheme,
@@ -141,17 +211,25 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         toggleAudio,
         triggerSound,
 
+        lampOn,
+        toggleLamp,
+        lofiPlaying,
+        toggleLofi,
+
         terminalOpen,
         setTerminalOpen,
         commandPaletteOpen,
         setCommandPaletteOpen,
         settingsModalOpen,
         setSettingsModalOpen,
+        resumeModalOpen,
+        setResumeModalOpen,
 
         activeProjectSlug,
         openProjectModal,
         closeProjectModal,
 
+        reducedMotion,
         sessionUptime,
       }}
     >
