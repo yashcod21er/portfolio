@@ -48,7 +48,7 @@ export const ProjectDeviceCard: React.FC<{ project: Project; isEven: boolean }> 
         <div
           className={`lg:col-span-7 bg-[#F6F5F0] border-b lg:border-b-0 ${
             isEven ? 'lg:border-r border-[#DAD8D1]' : 'lg:order-2 lg:border-l border-[#DAD8D1]'
-          } p-6 sm:p-10 flex flex-col items-center justify-center min-h-[360px] sm:min-h-[460px] relative overflow-hidden`}
+          } p-4 sm:p-8 md:p-10 flex flex-col items-center justify-center min-h-[320px] sm:min-h-[460px] relative overflow-hidden`}
         >
           {/* Viewport Frame Switcher Control */}
           <div className="flex items-center gap-1.5 p-1 rounded-xl bg-white/90 backdrop-blur-md border border-[#DAD8D1] shadow-sm mb-6 z-20 self-end">
@@ -153,7 +153,7 @@ export const ProjectDeviceCard: React.FC<{ project: Project; isEven: boolean }> 
         </div>
 
         {/* Textual Narrative Details */}
-        <div className={`lg:col-span-5 p-6 sm:p-10 space-y-6 ${isEven ? '' : 'lg:order-1'}`}>
+        <div className={`lg:col-span-5 p-5 sm:p-8 md:p-10 space-y-6 ${isEven ? '' : 'lg:order-1'}`}>
           {/* Category & Status */}
           <div className="flex items-center gap-3">
             <span

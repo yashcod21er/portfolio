@@ -129,7 +129,7 @@ export const SkillsSection: React.FC = () => {
           <GlassCard
             key={cat.id}
             glowColor="blue"
-            className="p-7 flex flex-col justify-between"
+            className="p-5 sm:p-7 flex flex-col justify-between"
           >
             <div>
               {/* Category Header */}

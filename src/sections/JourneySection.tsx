@@ -108,7 +108,7 @@ export const JourneySection: React.FC = () => {
       </div>
 
       {/* Clean Vertical Timeline Roadmap */}
-      <div className="relative border-l-2 border-[#DAD8D1] ml-4 sm:ml-8 pl-8 sm:pl-12 space-y-12">
+      <div className="relative border-l-2 border-[#DAD8D1] ml-4 sm:ml-8 pl-6 sm:pl-10 space-y-10 sm:space-y-12">
         {filteredStations.map((station) => {
           const isCompleted = station.status === 'COMPLETED';
           const isFuture = station.status === 'FUTURE';
@@ -117,7 +117,7 @@ export const JourneySection: React.FC = () => {
             <div key={station.id} className="relative group">
               {/* Timeline Route Node Pin */}
               <div
-                className={`absolute -left-[42px] sm:-left-[58px] top-1.5 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all bg-white ${
+                className={`absolute -left-[13px] top-2 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all bg-white z-10 ${
                   isCompleted
                     ? 'border-[#2563EB] text-[#2563EB] shadow-sm'
                     : isFuture
@@ -132,7 +132,7 @@ export const JourneySection: React.FC = () => {
               </div>
 
               {/* Milestone Card */}
-              <GlassCard className="p-6 sm:p-8 space-y-5 hover:border-[#2563EB]/40 transition-all duration-300">
+              <GlassCard className="p-5 sm:p-8 space-y-4 sm:space-y-5 hover:border-[#2563EB]/40 transition-all duration-300">
                 {/* Header Row */}
                 <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#DAD8D1]/80 pb-3">
                   <div className="flex items-center gap-2.5">

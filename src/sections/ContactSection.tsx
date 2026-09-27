@@ -313,7 +313,7 @@ export const ContactSection: React.FC = () => {
 
         {/* Right Column: Authentic Tactile Airmail Postcard */}
         <div className="lg:col-span-7">
-          <div className="relative rounded-3xl bg-[#FAF9F5] border-2 border-[#D4D0C5] p-6 sm:p-10 shadow-studio-lg overflow-hidden">
+          <div className="relative rounded-3xl bg-[#FAF9F5] border-2 border-[#D4D0C5] p-5 sm:p-10 shadow-studio-lg overflow-hidden">
             {/* Airmail Top Chevron Border Strip */}
             <div
               className="absolute top-0 left-0 right-0 h-2.5 opacity-80"
@@ -324,9 +324,9 @@ export const ContactSection: React.FC = () => {
             />
 
             {/* Postcard Header: Cancellation Stamp & Postage Stamp */}
-            <div className="flex items-start justify-between gap-4 pb-6 mb-6 border-b-2 border-dashed border-[#DAD8D1]">
-              {/* Vintage Circular Postmark */}
-              <div className="relative border-2 border-[#2563EB]/40 rounded-full w-24 h-24 p-2 flex flex-col items-center justify-center text-center -rotate-6 shrink-0 shadow-sm bg-white/70">
+            <div className="flex items-start justify-between gap-3 sm:gap-4 pb-4 sm:pb-6 mb-6 border-b-2 border-dashed border-[#DAD8D1]">
+              {/* Vintage Circular Postmark (Desktop/Tablet) */}
+              <div className="hidden sm:flex relative border-2 border-[#2563EB]/40 rounded-full w-24 h-24 p-2 flex-col items-center justify-center text-center -rotate-6 shrink-0 shadow-sm bg-white/70">
                 <div className="text-[8px] font-mono font-black text-[#2563EB] tracking-tighter leading-none">
                   PUNE G.P.O.
                 </div>
@@ -336,25 +336,25 @@ export const ContactSection: React.FC = () => {
               </div>
 
               {/* Header Title */}
-              <div className="flex-1 min-w-0 pl-2">
+              <div className="flex-1 min-w-0">
                 <div className="inline-flex items-center gap-1 text-[10px] font-mono font-bold uppercase tracking-widest text-[#2563EB] bg-[#2563EB]/10 px-2.5 py-0.5 rounded-full mb-1">
                   <Stamp className="w-3 h-3" /> AIRMAIL POSTCARD
                 </div>
-                <h3 className="text-lg sm:text-xl font-black font-display text-[#111318] truncate">
+                <h3 className="text-base sm:text-xl font-black font-display text-[#111318] break-words">
                   POSTAL DISPATCH TO YASH HOGADE
                 </h3>
-                <p className="text-xs font-mono text-[#8E929D] truncate">
+                <p className="text-[11px] sm:text-xs font-mono text-[#8E929D] break-words">
                   PAR AVION // SAVITRIBAI PHULE PUNE UNIVERSITY
                 </p>
               </div>
 
               {/* Tactile Postage Stamp */}
-              <div className="shrink-0 border-2 border-dashed border-[#EF4444] rounded-lg p-2 bg-white shadow-sm text-center w-18 rotate-3">
+              <div className="shrink-0 border-2 border-dashed border-[#EF4444] rounded-lg p-2 bg-white shadow-sm text-center w-16 sm:w-18 rotate-3">
                 <div className="text-[7px] font-mono font-black text-[#EF4444] tracking-wider uppercase">
                   INDIA POST
                 </div>
-                <div className="w-6 h-6 mx-auto my-1 rounded bg-[#EF4444]/10 flex items-center justify-center text-[#EF4444]">
-                  <Sparkles className="w-3.5 h-3.5" />
+                <div className="w-5 h-5 sm:w-6 sm:h-6 mx-auto my-1 rounded bg-[#EF4444]/10 flex items-center justify-center text-[#EF4444]">
+                  <Sparkles className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
                 </div>
                 <div className="text-[9px] font-mono font-bold text-[#111318]">₹ 5.00</div>
               </div>

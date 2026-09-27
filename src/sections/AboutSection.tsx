@@ -27,8 +27,8 @@ export const AboutSection: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         {/* Left Column: Personal Narrative & Philosophy */}
         <div className="lg:col-span-7 space-y-8">
-          <div className="space-y-6 text-base sm:text-lg text-[#646873] leading-relaxed font-sans">
-            <p className="text-[#111318] font-medium text-lg sm:text-xl leading-relaxed">
+          <div className="p-5 sm:p-0 rounded-2xl sm:rounded-none bg-white/80 sm:bg-transparent backdrop-blur-md sm:backdrop-blur-none border border-[#DAD8D1]/80 sm:border-transparent shadow-studio sm:shadow-none space-y-4 sm:space-y-6 text-sm sm:text-lg text-[#646873] leading-relaxed font-sans">
+            <p className="text-[#111318] font-medium text-base sm:text-xl leading-relaxed">
               {portfolioConfig.bio}
             </p>
             <p>

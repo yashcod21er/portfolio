@@ -26,7 +26,7 @@ export const Footer: React.FC = () => {
         {/* Links & Back to Top */}
         <div className="flex flex-col md:items-end gap-6 w-full md:w-auto">
           {/* Social Links */}
-          <div className="flex items-center gap-5 text-xs font-mono">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-5 text-xs font-mono">
             {portfolioConfig.socials.github && (
               <a
                 href={portfolioConfig.socials.github}
@@ -65,7 +65,7 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Copyright & Back to Top */}
-          <div className="flex items-center justify-between md:justify-end gap-6 pt-4 border-t border-[#DAD8D1] w-full md:w-auto">
+          <div className="flex flex-wrap items-center justify-between md:justify-end gap-4 sm:gap-6 pt-4 border-t border-[#DAD8D1] w-full md:w-auto">
             <span className="text-[11px] font-mono text-[#8E929D]">
               © {portfolioConfig.copyrightYear} {portfolioConfig.name}. Built with React + Three.js.
             </span>

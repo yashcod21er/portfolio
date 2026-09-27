@@ -31,7 +31,9 @@ export const Workstation: React.FC<WorkstationProps> = ({ position }) => {
   const isMobile = size.width < 768;
   const isTablet = size.width >= 768 && size.width < 1024;
   const defaultShiftX = isMobile ? 0 : isTablet ? 0.45 : 0.85;
-  const groupPosition: [number, number, number] = position ?? [defaultShiftX, 0, 0];
+  const defaultShiftY = isMobile ? -0.72 : 0;
+  const defaultScale = isMobile ? 0.68 : isTablet ? 0.85 : 1;
+  const groupPosition: [number, number, number] = position ?? [defaultShiftX, defaultShiftY, 0];
 
   const groupRef = useRef<THREE.Group>(null);
   const pcFan1Ref = useRef<THREE.Object3D | null>(null);
@@ -819,7 +821,7 @@ export const Workstation: React.FC<WorkstationProps> = ({ position }) => {
   };
 
   return (
-    <group ref={groupRef} position={groupPosition}>
+    <group ref={groupRef} position={groupPosition} scale={defaultScale}>
       {/* 3D Blender Battlestation Model */}
       <primitive object={scene} />
 

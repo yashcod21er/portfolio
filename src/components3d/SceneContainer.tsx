@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useSystem } from '../context/SystemContext';
@@ -14,6 +14,15 @@ import { CameraRig } from './CameraRig';
 export const SceneContainer: React.FC = () => {
   const { effectiveTier, dpr, activeSection } = useSystem();
   const { isSupported } = useWebGLSupport();
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  );
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // If WebGL is unavailable or user selected 'OFF', render 2D vector fallback
   if (!isSupported || effectiveTier === 'OFF') {
@@ -45,9 +54,9 @@ export const SceneContainer: React.FC = () => {
             {/* Main Procedural Developer Workstation */}
             <Workstation />
 
-            {/* Section-Activated 3D Focal Elements */}
-            {activeSection === 'skills' && <TechnicalCore />}
-            {activeSection === 'contact' && <ContactPortal />}
+            {/* Section-Activated 3D Focal Elements (Desktop & Tablet) */}
+            {!isMobile && activeSection === 'skills' && <TechnicalCore />}
+            {!isMobile && activeSection === 'contact' && <ContactPortal />}
           </Canvas>
         </Suspense>
       </ErrorBoundary>

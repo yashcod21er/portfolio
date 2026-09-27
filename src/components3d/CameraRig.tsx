@@ -40,8 +40,8 @@ export const CameraRig: React.FC = () => {
       // Portrait smartphone framing: workstation centered, camera pulled back to fit within narrow aspect ratio
       configs = {
         home: {
-          pos: [0.0, 0.45, 5.5],
-          lookAt: [0.0, -0.35, 0],
+          pos: [0.0, 0.48, 5.0],
+          lookAt: [0.0, 0.28, 0],
         },
         about: {
           pos: [0.0, 0.85, 4.6],
