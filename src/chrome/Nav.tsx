@@ -7,31 +7,26 @@ import { lockScroll, prefersReducedMotion, scrollToTarget } from '../lib/smooth'
 import { sfx } from '../lib/sound';
 import { useSite } from '../lib/store';
 import { TextRoll } from '../vendor/skiper/skiper58';
-import EdgeBlur from './EdgeBlur';
 import { MobileMenu, type MenuItem } from './MobileMenu';
-import { PuneClock } from './PuneClock';
 import { ScrambleLink } from './Scramble';
-import ScrollHud from './ScrollHud';
 import { useActiveSection } from './sectionSpy';
 import { SoundToggle } from './SoundToggle';
 
 const LINKS = [
   { label: 'Work', href: '#work' },
-  { label: 'About', href: '#about' },
+  { label: 'Stack', href: '#stack' },
+  { label: 'Journey', href: '#journey' },
   { label: 'Contact', href: '#contact' },
 ];
 
-const MENU_ITEMS: MenuItem[] = [
-  ...LINKS,
-  { label: 'Resume', href: portfolioConfig.resumePath, external: true },
-];
+const MENU_ITEMS: MenuItem[] = [...LINKS, { label: 'Résumé', href: portfolioConfig.resumePath, external: true }];
 
 const detectMac = () =>
   typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent);
 
 const ITEM = 'font-mono text-[11px] uppercase tracking-[0.12em]';
 
-/** Nav link whose letters roll on hover / focus (skiper58). Ochre tick marks the current section. */
+/** Nav link whose letters roll on hover / focus (skiper58). A red glowing tick marks the current chapter. */
 function RollLink({ label, href, current, onGo }: { label: string; href: string; current: boolean; onGo: (href: string) => void }) {
   return (
     <motion.a
@@ -47,11 +42,11 @@ function RollLink({ label, href, current, onGo }: { label: string; href: string;
         sfx.click();
         onGo(href);
       }}
-      className={`${ITEM} relative inline-flex items-center gap-2 py-2`}
+      className={`${ITEM} relative inline-flex items-center gap-2 py-2 transition-colors duration-300 ${current ? 'text-signal' : 'text-bone/80 hover:text-bone'}`}
     >
       <span
         aria-hidden="true"
-        className={`size-1 rounded-full bg-current transition-[opacity,scale] duration-500 ease-expo ${current ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}
+        className={`size-1 rounded-full bg-signal shadow-[0_0_8px_var(--color-signal)] transition-[opacity,scale] duration-500 ease-expo ${current ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}
       />
       <span className="sr-only">{label}</span>
       <TextRoll inherit center className="leading-none">
@@ -62,7 +57,7 @@ function RollLink({ label, href, current, onGo }: { label: string; href: string;
 }
 
 /**
- * Fixed top bar. Text uses mix-blend-difference so it reads over the portrait, ochre and ink alike.
+ * Fixed top bar over the world: a soft ink fade behind bone text with red accents.
  * Hides on scroll down, returns on scroll up. Below 768px the links collapse into a full-screen menu.
  */
 export default function Nav() {
@@ -136,7 +131,7 @@ export default function Nav() {
         autoAlpha: 0,
         duration: 1.1,
         stagger: 0.06,
-        delay: 0.55,
+        delay: 0.7,
         ease: 'expo.out',
       });
     },
@@ -154,31 +149,34 @@ export default function Nav() {
 
   return (
     <>
-      <header
-        ref={headerRef}
-        onFocusCapture={() => setHidden(false)}
-        className="pointer-events-none fixed inset-x-0 top-0 z-[70] text-bone mix-blend-difference"
-      >
-        <div className="gutter grid grid-cols-[auto_1fr_auto] items-center gap-4 pb-3 pt-[max(16px,env(safe-area-inset-top))] md:pt-[max(22px,env(safe-area-inset-top))] lg:grid-cols-[1fr_auto_1fr]">
+      <header ref={headerRef} onFocusCapture={() => setHidden(false)} className="pointer-events-none fixed inset-x-0 top-0 z-[70] text-bone">
+        {/* soft ink fade so the bar reads over bright red light */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 h-[120%] bg-[linear-gradient(to_bottom,rgb(7_5_6/0.78),rgb(7_5_6/0.35)_60%,transparent)]"
+        />
+        <div className="gutter relative flex items-center justify-between gap-4 pb-3 pt-[max(16px,env(safe-area-inset-top))] md:pt-[max(22px,env(safe-area-inset-top))]">
           <a
             data-nav-item
-            href="#home"
-            aria-label="Yash Hogade, back to top"
+            href="#intro"
+            aria-label={`${portfolioConfig.name}, back to the start`}
             onClick={(e) => {
               e.preventDefault();
-              go('#home');
+              sfx.click();
+              go('#intro');
             }}
-            className="pointer-events-auto flex items-baseline gap-3 justify-self-start"
+            className="group pointer-events-auto flex items-center gap-3"
           >
-            <span className="display text-[26px] leading-none">YH</span>
-            <span className={`${ITEM} hidden lg:inline`}>Yash Hogade</span>
+            <span className="display-x grid size-9 place-items-center border border-signal/60 text-[15px] tracking-[-0.04em] text-bone transition-[background-color,box-shadow] duration-300 group-hover:bg-signal group-hover:text-ink group-hover:shadow-[0_0_22px_-4px_var(--color-signal)]">
+              YH
+            </span>
+            <span className="hidden flex-col leading-tight lg:flex">
+              <span className={`${ITEM} text-bone`}>{portfolioConfig.name}</span>
+              <span className={`${ITEM} text-mute`}>{portfolioConfig.role}</span>
+            </span>
           </a>
 
-          <div data-nav-item className="justify-self-center">
-            <PuneClock className={ITEM} />
-          </div>
-
-          <nav aria-label="Primary" className="pointer-events-auto hidden items-center gap-7 justify-self-end md:flex">
+          <nav aria-label="Primary" className="pointer-events-auto hidden items-center gap-7 md:flex">
             <ul className="flex items-center gap-6">
               {LINKS.map((link) => (
                 <li key={link.href} data-nav-item>
@@ -186,6 +184,7 @@ export default function Nav() {
                 </li>
               ))}
             </ul>
+            <span aria-hidden="true" className="h-4 w-px bg-line" />
             <button
               data-nav-item
               type="button"
@@ -196,7 +195,7 @@ export default function Nav() {
               onPointerEnter={() => sfx.hover()}
               aria-label="Open command palette"
               aria-keyshortcuts={isMac ? 'Meta+K' : 'Control+K'}
-              className={`${ITEM} rounded-full border border-bone/50 px-2.5 py-1 transition-colors duration-300 hover:bg-bone hover:text-ink`}
+              className={`${ITEM} border border-signal/50 px-2.5 py-1 text-bone transition-[background-color,color,box-shadow] duration-300 hover:bg-signal hover:text-ink hover:shadow-[0_0_20px_-4px_var(--color-signal)]`}
             >
               {isMac ? '⌘K' : 'Ctrl K'}
             </button>
@@ -205,20 +204,20 @@ export default function Nav() {
                 href={portfolioConfig.resumePath}
                 target="_blank"
                 rel="noopener noreferrer"
-                text="Resume"
-                aria-label="Resume (opens in a new tab)"
-                className={`${ITEM} py-2`}
+                text="Résumé"
+                aria-label="Résumé (opens in a new tab)"
+                className={`${ITEM} py-2 text-bone/80 transition-colors hover:text-signal`}
                 onPointerEnter={() => sfx.hover()}
               >
                 <ArrowUpRight aria-hidden="true" size={13} strokeWidth={1.5} />
               </ScrambleLink>
             </span>
-            <span data-nav-item className="flex">
+            <span data-nav-item className="flex text-bone/80">
               <SoundToggle showLabel />
             </span>
           </nav>
 
-          <div className="pointer-events-auto flex items-center gap-3 justify-self-end md:hidden">
+          <div className="pointer-events-auto flex items-center gap-3 md:hidden">
             <span data-nav-item className="flex">
               <SoundToggle />
             </span>
@@ -232,8 +231,9 @@ export default function Nav() {
                 sfx.click();
                 setOpen((o) => !o);
               }}
-              className={`${ITEM} -mx-2 -my-3 px-2 py-3`}
+              className={`${ITEM} -mx-2 -my-3 flex items-center gap-2 px-2 py-3`}
             >
+              <span aria-hidden="true" className={`size-1.5 rounded-full bg-signal transition-opacity ${open ? 'opacity-100' : 'opacity-60'}`} />
               {open ? 'Close' : 'Menu'}
             </button>
           </div>
@@ -241,10 +241,6 @@ export default function Nav() {
       </header>
 
       <AnimatePresence>{open && <MobileMenu items={MENU_ITEMS} onNavigate={go} />}</AnimatePresence>
-
-      {/* Viewport chrome that rides along with the nav (z 60, under it) */}
-      <EdgeBlur />
-      <ScrollHud />
     </>
   );
 }

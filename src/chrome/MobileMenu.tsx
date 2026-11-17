@@ -18,7 +18,7 @@ interface Props {
   onNavigate: (href: string) => void;
 }
 
-/** Full-screen mobile menu: ink sheet wipes down, display links rise in from masks. */
+/** Full-screen mobile menu: ink sheet wipes down behind a red scanline, heavy links rise in from masks. */
 export function MobileMenu({ items, onNavigate }: Props) {
   const reduce = useReducedMotion();
   const firstRef = useRef<HTMLAnchorElement>(null);
@@ -36,10 +36,12 @@ export function MobileMenu({ items, onNavigate }: Props) {
       aria-modal="true"
       aria-label="Site menu"
       className="fixed inset-0 z-[65] flex flex-col bg-ink md:hidden"
+      style={{ backgroundImage: 'radial-gradient(ellipse at 20% 100%, rgb(143 13 10 / 0.35), transparent 60%)' }}
       initial={{ clipPath: 'inset(0% 0% 100% 0%)' }}
       animate={{ clipPath: 'inset(0% 0% 0% 0%)', transition: { duration: t(0.75), ease: QUART } }}
       exit={{ clipPath: 'inset(0% 0% 100% 0%)', transition: { duration: t(0.6), ease: QUART, delay: t(0.12) } }}
     >
+      <div aria-hidden="true" className="scanlines pointer-events-none absolute inset-0 opacity-60" />
       <nav
         aria-label="Mobile"
         className="gutter flex flex-1 flex-col justify-center pt-[calc(env(safe-area-inset-top,0px)+64px)]"
@@ -57,16 +59,16 @@ export function MobileMenu({ items, onNavigate }: Props) {
                   e.preventDefault();
                   onNavigate(item.href);
                 }}
-                className="display flex items-baseline justify-between py-2 text-[clamp(56px,18vw,104px)] text-bone"
+                className="display-x flex items-baseline justify-between py-2 text-[clamp(44px,14vw,96px)] text-bone transition-colors active:text-signal"
                 initial={{ y: '105%' }}
                 animate={{ y: '0%', transition: { delay: t(0.2 + i * 0.07), duration: t(0.95), ease: EXPO } }}
                 exit={{ y: '105%', transition: { delay: t(i * 0.03), duration: t(0.35), ease: EXPO_IN } }}
               >
                 <span>
                   {item.label}
-                  {item.external && <span className="serif-i text-mute"> ↗</span>}
+                  {item.external && <span className="text-signal"> ↗</span>}
                 </span>
-                <span className="label tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+                <span className="label tabular-nums text-signal">{String(i + 1).padStart(2, '0')}</span>
               </motion.a>
             </li>
           ))}
@@ -80,7 +82,7 @@ export function MobileMenu({ items, onNavigate }: Props) {
         exit={{ opacity: 0, transition: { duration: t(0.2) } }}
       >
         <div className="flex flex-col gap-2">
-          <a href={`mailto:${portfolioConfig.socials.email}`} className="text-bone normal-case tracking-normal">
+          <a href={`mailto:${portfolioConfig.socials.email}`} className="text-bone normal-case tracking-normal underline decoration-signal/60 underline-offset-4">
             {portfolioConfig.socials.email}
           </a>
           <div className="flex gap-5">

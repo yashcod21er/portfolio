@@ -3,24 +3,28 @@
 @source not "../vendor-src";
 
 /*
-  YASH HOGADE · v2 — "Monsoon ink"
-  Committed single dark look. Charcoal ink with a cool teal bias, bone text,
-  and one accent: the ochre of the lime-washed wall in Yash's portrait.
+  YASH HOGADE · v4 — "Signal Red"
+  A black void lit by one red signal. Warm near-black, bone text, and a single
+  saturated red that glows (in WebGL it is pushed past 1.0 so bloom catches it).
+  Token names from v2 are kept so older components re-skin automatically:
+  "ochre" now IS the signal red.
 */
 @theme {
-  --color-ink: #0b0d0e;        /* page background */
-  --color-ink-2: #121518;      /* raised surfaces */
-  --color-ink-3: #1a1e21;      /* hover surfaces */
-  --color-line: #252a2d;       /* hairlines */
-  --color-bone: #ece7df;       /* primary text */
-  --color-mute: #8b908b;       /* secondary text */
-  --color-ochre: #e3a23b;      /* the one accent */
-  --color-ochre-deep: #b97a22;
+  --color-ink: #070506;        /* the void */
+  --color-ink-2: #100a0b;      /* raised surfaces */
+  --color-ink-3: #1a1012;      /* hover surfaces */
+  --color-line: #2a1a1c;       /* hairlines, red-tinted */
+  --color-bone: #f3ece8;       /* primary text */
+  --color-mute: #9a8c8a;       /* secondary text */
+  --color-signal: #ff2a1f;     /* THE accent: signal red */
+  --color-signal-deep: #8f0d0a;/* deep red for washes and shadows */
+  --color-ochre: #ff2a1f;      /* legacy alias of signal */
+  --color-ochre-deep: #8f0d0a; /* legacy alias of signal-deep */
 
-  --font-display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --font-display: "Archivo", "Arial Black", system-ui, sans-serif;
   --font-serif: "Instrument Serif", "Times New Roman", Georgia, serif;
-  --font-sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+  --font-sans: "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
 
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-quart: cubic-bezier(0.76, 0, 0.24, 1);
@@ -71,12 +75,14 @@ body {
 }
 .display {
   font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 0.88;
-  font-variation-settings: "opsz" 96, "wdth" 75;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  font-variation-settings: "wdth" 112;
   text-wrap: balance;
 }
+/* the red glow used for live/active things in the DOM, matching the bloom in WebGL */
+.glow { text-shadow: 0 0 18px color-mix(in srgb, var(--color-signal) 70%, transparent), 0 0 2px var(--color-signal); }
 .serif-i { font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
 .gutter {
   padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
@@ -101,4 +107,65 @@ html.lenis, html.lenis body { height: auto; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* ── v4 "Signal Red" helpers (overlay + chrome). Added, never redefine the tokens above. ── */
+@layer components {
+/* the heaviest cinematic voice: Archivo 900, fully expanded, uppercase */
+.display-x {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-variation-settings: "wdth" 125;
+  letter-spacing: -0.035em;
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+/* glowing red hairline frame for live controls */
+.glow-box {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-signal) 55%, transparent),
+    0 0 22px -4px color-mix(in srgb, var(--color-signal) 65%, transparent);
+}
+/* CRT-style horizontal scanlines (use on an absolutely positioned layer) */
+.scanlines {
+  background-image: repeating-linear-gradient(to bottom, rgb(255 255 255 / 0.03) 0 1px, transparent 1px 3px);
+}
+/* pulsing red "live" dot */
+.signal-dot {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--color-signal);
+  box-shadow: 0 0 10px var(--color-signal);
+}
+.signal-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--color-signal);
+  animation: signal-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+/* viewfinder corner brackets: put four <i> children inside a .brackets box */
+.brackets { position: relative; }
+.brackets > i {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--color-signal);
+  border-style: solid;
+  border-width: 0;
+  pointer-events: none;
+}
+.brackets > i:nth-child(1) { top: 0; left: 0; border-top-width: 1px; border-left-width: 1px; }
+.brackets > i:nth-child(2) { top: 0; right: 0; border-top-width: 1px; border-right-width: 1px; }
+.brackets > i:nth-child(3) { bottom: 0; left: 0; border-bottom-width: 1px; border-left-width: 1px; }
+.brackets > i:nth-child(4) { bottom: 0; right: 0; border-bottom-width: 1px; border-right-width: 1px; }
+}
+
+@keyframes signal-ping {
+  75%, 100% { transform: scale(2.8); opacity: 0; }
 }

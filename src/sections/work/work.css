@@ -1,5 +1,5 @@
 /*
-  Work section — states that utilities can't express (the shared .display/.label helpers are
+  Work / case study — states that utilities can't express (the shared .display/.label helpers are
   unlayered, so overriding their variation settings / colour needs plain CSS of higher specificity).
 */
 
@@ -76,15 +76,19 @@
   outline-offset: 10px;
 }
 
-/* ---------- Case study "next project" ---------- */
+/* ---------- Case study "next project": heavy title widens and lights up red ---------- */
 .case-next__title {
-  transition: font-variation-settings 0.9s var(--ease-expo), color 0.35s ease;
+  font-variation-settings: "wdth" 100;
+  transition: font-variation-settings 0.9s var(--ease-expo), color 0.35s ease, text-shadow 0.35s ease;
 }
 @media (hover: hover) {
   .case-next:hover .case-next__title {
-    font-variation-settings: "opsz" 96, "wdth" 100;
+    font-variation-settings: "wdth" 125;
+    color: var(--color-signal);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--color-signal) 70%, transparent), 0 0 2px var(--color-signal);
   }
 }
 .case-next:focus-visible .case-next__title {
-  font-variation-settings: "opsz" 96, "wdth" 100;
+  font-variation-settings: "wdth" 125;
+  color: var(--color-signal);
 }

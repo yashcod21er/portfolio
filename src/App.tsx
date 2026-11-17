@@ -5,14 +5,17 @@ import Preloader from './chrome/Preloader';
 import Cursor from './chrome/Cursor';
 import Nav from './chrome/Nav';
 import Grain from './chrome/Grain';
-import Hero from './sections/hero/Hero';
-import Work from './sections/work/Work';
-import Interlude from './sections/interlude/Interlude';
+import World from './world/World';
+import ScrollDriver from './world/ScrollDriver';
+import ScoreDriver from './chrome/ScoreDriver';
+import Overlay from './overlay/Overlay';
 import ProjectCase from './sections/work/ProjectCase';
-import About from './sections/about/About';
-import Contact from './sections/contact/Contact';
 import CommandPalette from './sections/contact/CommandPalette';
 
+/**
+ * v4 "Signal Red": one fixed full-screen 3D world (<World/>) behind a DOM overlay
+ * (<Overlay/>) whose scroll length drives the camera through five chapters.
+ */
 export default function App() {
   useEffect(() => {
     startSmoothScroll();
@@ -21,16 +24,15 @@ export default function App() {
   return (
     <>
       <Preloader />
+      <World />
       <Grain />
       <Cursor />
       <Nav />
-      <main>
-        <Hero />
-        <Work />
-        <Interlude />
-        <About />
-        <Contact />
+      <main id="world-scroll">
+        <Overlay />
       </main>
+      <ScrollDriver />
+      <ScoreDriver />
       <ProjectCase />
       <CommandPalette />
     </>

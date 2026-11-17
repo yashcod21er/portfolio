@@ -27,8 +27,8 @@ function resolve(target: EventTarget | null): { mode: Mode; label: string } {
 
 /**
  * Global cursor (fine pointers only). Contract, see DESIGN.md:
- *  data-cursor="link"                         → ring grows and inverts
- *  data-cursor="view" data-cursor-label="Open" → ochre disc with mono label
+ *  data-cursor="link"                         → red ring grows, fills with a faint red glow
+ *  data-cursor="view" data-cursor-label="Open" → glowing signal-red disc with mono label
  *  data-cursor="hide"                         → hidden
  * Uses document-level pointerover delegation, so any section opts in with attributes only.
  */
@@ -167,24 +167,28 @@ export default function Cursor() {
 
   if (!enabled) return null;
 
-  // Each blended piece is its own fixed, z-indexed element. The wrapper is static (no z-index,
-  // opacity or transform) so it never forms a stacking context that would isolate the blend.
+  // Each piece is its own fixed, z-indexed element; the wrapper stays static (no z-index,
+  // opacity or transform) so visibility can hide everything without a stacking context.
   return (
     <div ref={layerRef} aria-hidden="true" style={{ visibility: 'hidden' }}>
-      {trail && <SpringFollow ref={trailRef} size={4} />}
+      {trail && <SpringFollow ref={trailRef} size={4} className="bg-signal/70" />}
       <div
         ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-[10000] h-9 w-9 rounded-full border border-bone mix-blend-difference will-change-transform"
+        className="pointer-events-none fixed left-0 top-0 z-[10000] h-9 w-9 rounded-full border border-signal/80 shadow-[0_0_14px_-2px_var(--color-signal)] will-change-transform"
       >
-        <div ref={fillRef} className="absolute inset-0 rounded-full bg-bone" />
+        <div ref={fillRef} className="absolute inset-0 rounded-full bg-signal/20" />
+        <span aria-hidden="true" className="absolute left-1/2 top-[-5px] h-[4px] w-px -translate-x-1/2 bg-signal" />
+        <span aria-hidden="true" className="absolute bottom-[-5px] left-1/2 h-[4px] w-px -translate-x-1/2 bg-signal" />
+        <span aria-hidden="true" className="absolute left-[-5px] top-1/2 h-px w-[4px] -translate-y-1/2 bg-signal" />
+        <span aria-hidden="true" className="absolute right-[-5px] top-1/2 h-px w-[4px] -translate-y-1/2 bg-signal" />
       </div>
       <div
         ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[10001] h-1.5 w-1.5 rounded-full bg-bone mix-blend-difference will-change-transform"
+        className="pointer-events-none fixed left-0 top-0 z-[10001] h-1.5 w-1.5 rounded-full bg-signal shadow-[0_0_8px_var(--color-signal)] will-change-transform"
       />
       <div
         ref={discRef}
-        className="pointer-events-none fixed left-0 top-0 z-[10002] flex h-[92px] w-[92px] items-center justify-center rounded-full bg-ochre will-change-transform"
+        className="pointer-events-none fixed left-0 top-0 z-[10002] flex h-[92px] w-[92px] items-center justify-center rounded-full bg-signal shadow-[0_0_40px_-6px_var(--color-signal)] will-change-transform"
       >
         <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink">{label}</span>
       </div>

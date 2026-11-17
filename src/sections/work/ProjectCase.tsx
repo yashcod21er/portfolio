@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useReducedMotion, useScroll, type Variants } f
 import { X } from 'lucide-react';
 import { useSite } from '../../lib/store';
 import { lockScroll } from '../../lib/smooth';
+import { sfx } from '../../lib/sound';
 import CaseBody from './CaseBody';
 import { EASE_QUART, pad, projects, writeProjectParam } from './projectUtils';
 import './work.css';
@@ -27,6 +28,7 @@ export default function ProjectCase() {
   const [switched, setSwitched] = useState(false);
 
   const close = useCallback(() => {
+    sfx.whoosh();
     setActiveProject(null);
     setSwitched(false);
   }, [setActiveProject]);
@@ -59,6 +61,7 @@ export default function ProjectCase() {
     const active = document.activeElement;
     returnFocusRef.current = active instanceof HTMLElement && active !== document.body ? active : null;
     lockScroll(true);
+    sfx.whoosh();
     const raf = requestAnimationFrame(() => dialogRef.current?.focus({ preventScroll: true }));
 
     return () => {
@@ -113,6 +116,7 @@ export default function ProjectCase() {
   }, [isOpen, close]);
 
   const goNext = () => {
+    sfx.whoosh();
     setSwitched(true);
     setActiveProject(next.slug);
   };
@@ -156,8 +160,11 @@ export default function ProjectCase() {
           exit="exit"
           className="fixed inset-0 z-[80] outline-none"
         >
-          <motion.div aria-hidden="true" variants={wipe(0)} className="absolute inset-0 bg-ochre" />
-          <motion.div aria-hidden="true" variants={wipe(1)} className="absolute inset-0 bg-ink" />
+          <motion.div aria-hidden="true" variants={wipe(0)} className="absolute inset-0 bg-signal" />
+          <motion.div aria-hidden="true" variants={wipe(1)} className="absolute inset-0 bg-ink">
+            <span className="scanlines absolute inset-0 block opacity-70" />
+            <span className="absolute inset-x-0 top-0 block h-[60vh] bg-[radial-gradient(ellipse_at_50%_0%,rgb(143_13_10/0.35),transparent_70%)]" />
+          </motion.div>
 
           <motion.div
             ref={scrollRef}
@@ -165,11 +172,12 @@ export default function ProjectCase() {
             data-lenis-prevent
             className="absolute inset-0 overflow-y-auto overflow-x-clip overscroll-contain"
           >
-            <div className="sticky top-0 z-10 border-b border-line bg-ink">
+            <div className="sticky top-0 z-10 border-b border-line bg-ink/90 backdrop-blur-md">
               <div className="gutter mx-auto flex max-w-[1600px] items-center justify-between gap-4 py-3.5">
-                <span className="label tabular-nums">
-                  <span className="hidden sm:inline">Yash Hogade — </span>Work{' '}
-                  <span className="text-bone">{pad(index + 1)}</span> / {pad(projects.length)}
+                <span className="label flex items-center gap-2.5 tabular-nums">
+                  <span className="signal-dot" aria-hidden="true" />
+                  <span className="hidden sm:inline">Yash Hogade — </span>Case{' '}
+                  <span className="text-signal">{pad(index + 1)}</span> / {pad(projects.length)}
                 </span>
                 <div className="flex items-center gap-4">
                   <span className="label hidden md:inline">Esc to close</span>
@@ -178,10 +186,10 @@ export default function ProjectCase() {
                     onClick={close}
                     data-cursor="link"
                     aria-label="Close case study"
-                    className="group inline-flex items-center gap-3 rounded-full border border-line py-1.5 pl-4 pr-1.5 transition-colors duration-300 hover:border-bone"
+                    className="group inline-flex items-center gap-3 rounded-full border border-line py-1.5 pl-4 pr-1.5 transition-[border-color,box-shadow] duration-300 hover:border-signal hover:shadow-[0_0_22px_-6px_var(--color-signal)]"
                   >
                     <span className="font-mono text-[11px] uppercase tracking-[0.12em]">Close</span>
-                    <span className="grid size-8 place-items-center rounded-full bg-bone text-ink transition-transform duration-500 ease-expo group-hover:rotate-90">
+                    <span className="grid size-8 place-items-center rounded-full bg-signal text-ink transition-transform duration-500 ease-expo group-hover:rotate-90">
                       <X aria-hidden="true" size={15} strokeWidth={1.75} />
                     </span>
                   </button>
@@ -215,7 +223,7 @@ function ReadProgress({ container }: { container: RefObject<HTMLDivElement | nul
     <motion.span
       aria-hidden="true"
       style={{ scaleX: scrollYProgress }}
-      className="absolute inset-x-0 -bottom-px block h-px origin-left bg-ochre"
+      className="absolute inset-x-0 -bottom-px block h-px origin-left bg-signal shadow-[0_0_10px_var(--color-signal)]"
     />
   );
 }

@@ -100,8 +100,8 @@ const toneClass: Record<TermTone, string> = {
   in: 'text-bone',
   out: 'text-bone/85',
   dim: 'text-mute',
-  accent: 'text-ochre',
-  err: 'text-[#e0715a]',
+  accent: 'text-signal',
+  err: 'text-[#ff7a6e]',
 };
 
 function ItemIcon({ icon }: { icon: Item['icon'] }) {
@@ -179,9 +179,10 @@ function Palette({ onClose }: { onClose: () => void }) {
         }),
     });
     return [
-      nav('home', 'Home', 'top start hero intro'),
+      nav('intro', 'Signal — start', 'top start home hero intro portrait'),
       nav('work', 'Work', 'projects selected portfolio case studies'),
-      nav('about', 'About', 'bio skills education story'),
+      nav('stack', 'Stack', 'skills tools technologies toolbox constellation'),
+      nav('journey', 'Journey', 'story education timeline road about'),
       nav('contact', 'Contact', 'email hire talk footer'),
       ...projectsData.map(
         (p, i): Item => ({
@@ -349,6 +350,11 @@ function Palette({ onClose }: { onClose: () => void }) {
       case 'sound':
         useSound.getState().setEnabled(res.effect.on);
         break;
+      case 'goto': {
+        const id = res.effect.id;
+        window.setTimeout(() => afterClose(() => scrollToTarget(`#${id}`)), 280);
+        break;
+      }
     }
   };
 
@@ -440,7 +446,7 @@ function Palette({ onClose }: { onClose: () => void }) {
     <div className="fixed inset-0 z-[90]">
       <motion.div
         aria-hidden
-        className="absolute inset-0 bg-ink/80"
+        className="absolute inset-0 bg-ink/85 backdrop-blur-[2px]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -458,7 +464,7 @@ function Palette({ onClose }: { onClose: () => void }) {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={reduce ? { opacity: 0 } : { opacity: 0, y: -10, scale: 0.98 }}
           transition={t}
-          className="pointer-events-auto flex w-full max-w-[680px] origin-top flex-col overflow-hidden rounded-[4px] border border-line bg-ink-2 text-bone"
+          className="pointer-events-auto flex w-full max-w-[680px] origin-top flex-col overflow-hidden rounded-[2px] border border-signal/25 bg-ink-2 text-bone shadow-[0_0_80px_-20px_rgb(255_42_31/0.45)]"
         >
           {/* Input row: same element in both modes (CSS order moves it to the bottom for the terminal) */}
           <div
@@ -468,12 +474,12 @@ function Palette({ onClose }: { onClose: () => void }) {
             )}
           >
             {terminal ? (
-              <span className="shrink-0 text-ochre select-none" aria-hidden>
+              <span className="glow shrink-0 text-signal select-none" aria-hidden>
                 <span className="hidden sm:inline">{PROMPT}</span>
                 <span className="sm:hidden">~$</span>
               </span>
             ) : (
-              <Search size={16} strokeWidth={1.6} className="shrink-0 text-mute" aria-hidden />
+              <Search size={16} strokeWidth={1.6} className="shrink-0 text-signal" aria-hidden />
             )}
             <input
               ref={inputRef}
@@ -491,7 +497,7 @@ function Palette({ onClose }: { onClose: () => void }) {
               autoCapitalize="off"
               spellCheck={false}
               className={cn(
-                'min-w-0 flex-1 bg-transparent text-bone caret-ochre outline-none placeholder:text-mute/70 focus-visible:outline-none',
+                'min-w-0 flex-1 bg-transparent text-bone caret-signal outline-none placeholder:text-mute/70 focus-visible:outline-none',
                 terminal ? 'font-mono text-[13px]' : 'text-[17px] tracking-[-0.01em]',
               )}
             />
@@ -500,7 +506,7 @@ function Palette({ onClose }: { onClose: () => void }) {
               onClick={onClose}
               aria-label="Close"
               data-cursor="link"
-              className="label shrink-0 rounded-[3px] border border-line px-1.5 py-0.5 text-[10px] transition-colors hover:border-mute hover:text-bone"
+              className="label shrink-0 rounded-[2px] border border-line px-1.5 py-0.5 text-[10px] transition-colors hover:border-signal hover:text-signal"
             >
               esc
             </button>
@@ -517,7 +523,7 @@ function Palette({ onClose }: { onClose: () => void }) {
               {lines.map((l) =>
                 l.tone === 'in' ? (
                   <div key={l.id} className="mt-2 break-words whitespace-pre-wrap text-bone first:mt-0">
-                    <span className="text-ochre select-none">{PROMPT} </span>
+                    <span className="text-signal select-none">{PROMPT} </span>
                     {l.text}
                   </div>
                 ) : (
@@ -544,7 +550,8 @@ function Palette({ onClose }: { onClose: () => void }) {
               )}
               {groups.map(({ group, items: groupItems }) => (
                 <div key={group} role="presentation" className="pb-1">
-                  <div role="presentation" className="label px-4 pt-3 pb-2 sm:px-5">
+                  <div role="presentation" className="label flex items-center gap-2 px-4 pt-3 pb-2 sm:px-5">
+                    <span aria-hidden className="h-px w-3 bg-signal/60" />
                     {group}
                   </div>
                   {groupItems.map((it) => {
@@ -571,16 +578,16 @@ function Palette({ onClose }: { onClose: () => void }) {
                           <motion.span
                             layoutId="cmdk-active"
                             aria-hidden
-                            className="absolute inset-0 bg-ink-3"
+                            className="absolute inset-0 bg-[linear-gradient(to_right,rgb(255_42_31/0.16),rgb(255_42_31/0.03)_60%,transparent)]"
                             transition={reduce ? { duration: 0 } : { type: 'spring', stiffness: 520, damping: 42, mass: 0.7 }}
                           >
-                            <span className="absolute inset-y-0 left-0 w-[2px] bg-ochre" />
+                            <span className="absolute inset-y-0 left-0 w-[2px] bg-signal shadow-[0_0_10px_var(--color-signal)]" />
                           </motion.span>
                         )}
                         <span
                           className={cn(
                             'relative flex w-5 shrink-0 justify-center font-mono text-[11px] transition-colors',
-                            isActive ? 'text-ochre' : 'text-mute',
+                            isActive ? 'text-signal' : 'text-mute',
                           )}
                         >
                           {it.index ?? <ItemIcon icon={it.icon} />}
@@ -598,7 +605,7 @@ function Palette({ onClose }: { onClose: () => void }) {
                           size={13}
                           strokeWidth={1.6}
                           aria-hidden
-                          className={cn('relative shrink-0 transition-opacity', isActive ? 'text-ochre opacity-100' : 'opacity-0')}
+                          className={cn('relative shrink-0 transition-opacity', isActive ? 'text-signal opacity-100' : 'opacity-0')}
                         />
                       </div>
                     );
@@ -621,7 +628,7 @@ function Palette({ onClose }: { onClose: () => void }) {
                   transition={{ duration: 0.25 }}
                   className="label flex items-center gap-2 text-bone"
                 >
-                  <span className="size-1.5 rounded-full bg-ochre" aria-hidden />
+                  <span className="signal-dot" aria-hidden />
                   {flash.text}
                 </motion.span>
               ) : (

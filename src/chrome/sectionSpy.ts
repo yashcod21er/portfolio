@@ -1,23 +1,18 @@
 import { useEffect } from 'react';
 import { create } from 'zustand';
+import { CHAPTERS, type ChapterId } from '../world/layout';
 
-/** Page sections in order (DESIGN.md "Page order"). Missing ones are skipped. */
-export const SECTIONS = [
-  { id: 'home', label: 'Index' },
-  { id: 'work', label: 'Work' },
-  { id: 'interlude', label: 'Interlude' },
-  { id: 'about', label: 'About' },
-  { id: 'contact', label: 'Contact' },
-] as const;
+/** Page sections in order: the overlay's chapter sections (ids double as nav anchors). */
+export const SECTIONS: ReadonlyArray<{ id: ChapterId; label: string }> = CHAPTERS.map((c) => ({ id: c.id, label: c.label }));
 
-export type SectionId = (typeof SECTIONS)[number]['id'];
+export type SectionId = ChapterId;
 
 interface SpyState {
   /** id of the section crossing the viewport's middle line */
   active: SectionId;
 }
 
-export const useSectionSpy = create<SpyState>(() => ({ active: 'home' }));
+export const useSectionSpy = create<SpyState>(() => ({ active: 'intro' }));
 
 let users = 0;
 let teardown: (() => void) | null = null;
@@ -27,7 +22,7 @@ function start() {
   const measure = () => {
     raf = 0;
     const mid = window.innerHeight * 0.5;
-    let active: SectionId = 'home';
+    let active: SectionId = 'intro';
     for (const s of SECTIONS) {
       const el = document.getElementById(s.id);
       if (!el) continue;

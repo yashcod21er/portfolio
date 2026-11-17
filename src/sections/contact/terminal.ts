@@ -2,6 +2,7 @@ import { portfolioConfig as cfg } from '../../data/portfolioConfig';
 import { projectsData } from '../../data/projectsData';
 import { skillsData } from '../../data/skillsData';
 import { useSound } from '../../lib/sound';
+import { CHAPTERS, type ChapterId } from '../../world/layout';
 import { prettyUrl } from './clipboard';
 
 /**
@@ -19,7 +20,8 @@ export type TermEffect =
   | { type: 'project'; slug: string }
   | { type: 'url'; href: string }
   | { type: 'mailto'; href: string }
-  | { type: 'sound'; on: boolean };
+  | { type: 'sound'; on: boolean }
+  | { type: 'goto'; id: ChapterId };
 
 export interface TermResult {
   lines: TermOut[];
@@ -36,6 +38,7 @@ const COMMANDS: Array<[string, string]> = [
   ['skills', 'the toolbox, by domain'],
   ['projects', 'selected work  (alias: ls)'],
   ['open <slug>', 'open a case study · or github | linkedin | resume'],
+  ['cd <chapter>', 'fly to intro | work | stack | journey | contact'],
   ['contact', 'how to reach me'],
   ['resume', 'open the résumé (pdf)'],
   ['date', 'current time in Pune (IST)'],
@@ -51,6 +54,7 @@ const LINKS: Record<string, string> = {
 };
 
 const slugs = projectsData.map((p) => p.slug);
+const chapterIds = CHAPTERS.map((c) => c.id);
 
 export function banner(): TermOut[] {
   return [
@@ -150,6 +154,14 @@ export function runCommand(raw: string): TermResult {
       return { lines: [['err', `open: no such target '${arg}'`], ['dim', `try: ${[...slugs, ...Object.keys(LINKS)].join(', ')}`]] };
     }
 
+    case 'cd':
+    case 'goto': {
+      const target = arg.replace(/^[#/~.]+/, '') || 'intro';
+      const chapter = CHAPTERS.find((c) => c.id === target);
+      if (!chapter) return { lines: [['err', `cd: no such chapter '${arg}'`], ['dim', `try: ${chapterIds.join(', ')}`]] };
+      return { lines: [['dim', `flying to ${chapter.label.toLowerCase()}…`]], effect: { type: 'goto', id: chapter.id } };
+    }
+
     case 'contact':
       return {
         lines: [
@@ -222,6 +234,11 @@ export function complete(raw: string): string | null {
     const hits = ['on', 'off'].filter((o) => o.startsWith(part));
     return hits.length === 1 ? `sound ${hits[0]}` : null;
   }
+  if (v.startsWith('cd ')) {
+    const part = v.slice(3);
+    const hits = chapterIds.filter((o) => o.startsWith(part));
+    return hits.length === 1 ? `cd ${hits[0]}` : null;
+  }
   if (v.startsWith('open ')) {
     const part = v.slice(5);
     const hits = [...slugs, ...Object.keys(LINKS)].filter((o) => o.startsWith(part));
@@ -231,5 +248,5 @@ export function complete(raw: string): string | null {
   const names = [...COMMANDS.map(([c]) => c.split(' ')[0]), 'sudo hire-me'];
   const hits = names.filter((n) => n.startsWith(v));
   if (hits.length !== 1) return null;
-  return hits[0] === 'open' || hits[0] === 'sound' ? `${hits[0]} ` : hits[0];
+  return hits[0] === 'open' || hits[0] === 'sound' || hits[0] === 'cd' ? `${hits[0]} ` : hits[0];
 }

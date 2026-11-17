@@ -56,13 +56,13 @@ export default function CaseBody({ project: p, index, next, onNext, delay, reduc
         className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 pt-[clamp(2.5rem,7vw,6rem)]"
       >
         <span className="label tabular-nums">
-          Case study <span className="text-bone">{pad(index + 1)}</span> / {pad(projects.length)}
+          Case study <span className="text-signal">{pad(index + 1)}</span> / {pad(projects.length)}
         </span>
         <span className="label inline-flex items-center gap-3">
           {p.category}
-          <span aria-hidden="true" className="h-px w-5 bg-line" />
-          <span className="inline-flex items-center gap-2">
-            <span aria-hidden="true" className="size-1.5 rounded-full bg-ochre" />
+          <span aria-hidden="true" className="h-px w-5 bg-signal/50" />
+          <span className="inline-flex items-center gap-2 text-bone">
+            <span aria-hidden="true" className="signal-dot" />
             {p.status}
           </span>
         </span>
@@ -71,12 +71,13 @@ export default function CaseBody({ project: p, index, next, onNext, delay, reduc
       <motion.h2
         variants={item}
         id="case-title"
-        className="display mt-[clamp(1.25rem,3vw,2.5rem)] text-[clamp(3.4rem,13vw,13rem)]"
+        className="display-x mt-[clamp(1.25rem,3vw,2.5rem)] break-words text-[clamp(2.6rem,11vw,11.5rem)]"
       >
         {main}
+        <span className="glow text-signal">.</span>
         {aside && (
-          <span className="serif-i mt-[0.12em] block text-[0.36em] leading-none tracking-normal text-mute">
-            {aside}
+          <span className="mt-[0.35em] block font-mono text-[clamp(0.8rem,1.3vw,1.05rem)] font-normal normal-case tracking-[0.12em] text-signal">
+            ({aside})
           </span>
         )}
       </motion.h2>
@@ -92,7 +93,7 @@ export default function CaseBody({ project: p, index, next, onNext, delay, reduc
               target="_blank"
               rel="noreferrer"
               data-cursor="link"
-              className="group inline-flex items-center gap-2 rounded-full bg-ochre px-5 py-3 font-mono text-[11px] uppercase tracking-[0.12em] text-ink transition-colors duration-300 hover:bg-bone"
+              className="group inline-flex items-center gap-2 rounded-full bg-signal px-5 py-3 font-mono text-[11px] uppercase tracking-[0.12em] text-ink shadow-[0_0_28px_-6px_var(--color-signal)] transition-[background-color,box-shadow] duration-300 hover:bg-bone hover:shadow-none"
             >
               Live demo
               <ArrowUpRight
@@ -109,7 +110,7 @@ export default function CaseBody({ project: p, index, next, onNext, delay, reduc
             target="_blank"
             rel="noreferrer"
             data-cursor="link"
-            className="group inline-flex items-center gap-2 rounded-full border border-line px-5 py-3 font-mono text-[11px] uppercase tracking-[0.12em] text-bone transition-colors duration-300 hover:border-bone hover:bg-bone hover:text-ink"
+            className="group inline-flex items-center gap-2 rounded-full border border-line px-5 py-3 font-mono text-[11px] uppercase tracking-[0.12em] text-bone transition-[border-color,color,box-shadow] duration-300 hover:border-signal hover:text-signal hover:shadow-[0_0_22px_-6px_var(--color-signal)]"
           >
             Source
             <ArrowUpRight
@@ -143,7 +144,7 @@ export default function CaseBody({ project: p, index, next, onNext, delay, reduc
               {p.technologies.map((t) => (
                 <li
                   key={t}
-                  className="rounded-full border border-line px-2.5 py-1 font-mono text-[10.5px] uppercase tracking-[0.08em] text-mute"
+                  className="rounded-full border border-signal/30 px-2.5 py-1 font-mono text-[10.5px] uppercase tracking-[0.08em] text-bone/80"
                 >
                   {t}
                 </li>
@@ -165,7 +166,14 @@ export default function CaseBody({ project: p, index, next, onNext, delay, reduc
           decoding="async"
           className="h-full w-full object-cover object-top"
         />
-        <span aria-hidden="true" className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-bone/10" />
+        <span aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgb(143_13_10/0.35),transparent_45%)] mix-blend-multiply" />
+        <span aria-hidden="true" className="brackets pointer-events-none absolute inset-3">
+          <i />
+          <i />
+          <i />
+          <i />
+        </span>
+        <span aria-hidden="true" className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-signal/20" />
       </motion.figure>
 
       {/* ── Overview ─────────────────────────────── */}
@@ -183,16 +191,16 @@ export default function CaseBody({ project: p, index, next, onNext, delay, reduc
       {/* ── Problem / approach ─────────────────────────────── */}
       <div className="mt-[clamp(4rem,9vw,8rem)] grid gap-x-[clamp(2rem,6vw,6rem)] gap-y-14 md:grid-cols-2">
         <motion.section {...inView} aria-labelledby="case-problem" className="border-t border-line pt-6">
-          <p className="label">(01)</p>
-          <h3 id="case-problem" className="display mt-4 text-[clamp(2.4rem,4.6vw,4.25rem)]">
-            The <span className="serif-i">problem</span>
+          <p className="label text-signal">(01)</p>
+          <h3 id="case-problem" className="display-x mt-4 text-[clamp(2rem,4.2vw,3.75rem)]">
+            The problem
           </h3>
           <p className="mt-6 max-w-[52ch] text-[17px] leading-relaxed text-bone/80">{p.problem}</p>
         </motion.section>
         <motion.section {...inView} aria-labelledby="case-approach" className="border-t border-line pt-6">
-          <p className="label">(02)</p>
-          <h3 id="case-approach" className="display mt-4 text-[clamp(2.4rem,4.6vw,4.25rem)]">
-            The <span className="serif-i">approach</span>
+          <p className="label text-signal">(02)</p>
+          <h3 id="case-approach" className="display-x mt-4 text-[clamp(2rem,4.2vw,3.75rem)]">
+            The <span className="glow text-signal">approach</span>
           </h3>
           <p className="mt-6 max-w-[52ch] text-[17px] leading-relaxed text-bone/80">{p.solution}</p>
         </motion.section>
@@ -205,7 +213,7 @@ export default function CaseBody({ project: p, index, next, onNext, delay, reduc
         className="mt-[clamp(4rem,9vw,8rem)] grid gap-8 lg:grid-cols-12"
       >
         <div className="lg:col-span-4">
-          <h3 id="case-features" className="display text-[clamp(2.4rem,4.6vw,4.25rem)]">
+          <h3 id="case-features" className="display-x text-[clamp(2rem,4.2vw,3.75rem)]">
             Features
           </h3>
           <p className="label mt-3 tabular-nums">{pad(p.features.length)} items</p>
@@ -216,7 +224,7 @@ export default function CaseBody({ project: p, index, next, onNext, delay, reduc
               key={f}
               className="grid grid-cols-[2.75rem_minmax(0,1fr)] gap-4 border-t border-line py-4 last:border-b md:py-5"
             >
-              <span className="label pt-1 tabular-nums">{pad(i + 1)}</span>
+              <span className="label pt-1 tabular-nums text-signal">{pad(i + 1)}</span>
               <span className="text-[16px] leading-snug md:text-[17px]">{f}</span>
             </li>
           ))}
@@ -231,8 +239,8 @@ export default function CaseBody({ project: p, index, next, onNext, delay, reduc
           className="mt-[clamp(4rem,9vw,8rem)]"
         >
           <div className="flex flex-wrap items-end justify-between gap-4">
-            <h3 id="case-architecture" className="display text-[clamp(2.4rem,4.6vw,4.25rem)]">
-              Architecture <span className="serif-i">highlights</span>
+            <h3 id="case-architecture" className="display-x text-[clamp(2rem,4.2vw,3.75rem)]">
+              Architecture
             </h3>
             <p className="label tabular-nums">{pad(p.architectureHighlights.length)} notes</p>
           </div>
@@ -242,7 +250,7 @@ export default function CaseBody({ project: p, index, next, onNext, delay, reduc
                 key={a}
                 className="border-b border-line py-6 md:border-b-0 md:border-r md:px-6 md:py-8 md:first:pl-0 md:last:border-r-0"
               >
-                <span className="label tabular-nums text-ochre!">{pad(i + 1)}</span>
+                <span className="label tabular-nums text-signal!">{pad(i + 1)}</span>
                 <p className="mt-4 max-w-[34ch] text-[16px] leading-snug md:text-[17px]">{a}</p>
               </li>
             ))}
@@ -253,7 +261,10 @@ export default function CaseBody({ project: p, index, next, onNext, delay, reduc
       {/* ── Next project ─────────────────────────────── */}
       <motion.footer {...inView} className="mt-[clamp(5rem,12vw,10rem)] border-t border-line pt-5">
         <div className="flex items-baseline justify-between gap-4">
-          <span className="label">Next project</span>
+          <span className="label flex items-center gap-2.5">
+            <span className="signal-dot" aria-hidden="true" />
+            Next project
+          </span>
           <span className="label tabular-nums">
             {pad(nextIndex + 1)} / {pad(projects.length)}
           </span>
@@ -266,13 +277,13 @@ export default function CaseBody({ project: p, index, next, onNext, delay, reduc
           aria-label={`Next project: ${next.title}`}
           className="case-next group mt-5 flex w-full items-end justify-between gap-6 text-left"
         >
-          <span className="case-next__title display block min-w-0 text-[clamp(3rem,11vw,11rem)]">
+          <span className="case-next__title display-x block min-w-0 break-words text-[clamp(2.4rem,9.5vw,10rem)]">
             {nextTitle.main}
           </span>
           <ArrowRight
             aria-hidden="true"
             strokeWidth={1}
-            className="mb-[1vw] size-[clamp(2.25rem,6vw,6rem)] shrink-0 transition-transform duration-700 ease-expo group-hover:translate-x-3"
+            className="mb-[1vw] size-[clamp(2.25rem,6vw,6rem)] shrink-0 text-signal transition-transform duration-700 ease-expo group-hover:translate-x-3"
           />
         </button>
         <p className="mt-4 max-w-[52ch] text-[15px] text-mute">{next.tagline}</p>

@@ -103,6 +103,25 @@ interface Graph {
 
 interface Pad {
   stop: (at: number) => void;
+  /** re-read `score` and glide the pad toward it */
+  follow: () => void;
+}
+
+/**
+ * The scroll-reactive score. Each chapter of the world has its own root note (all inside
+ * A minor), and `energy` (0..1, how fast the visitor is flying) opens the filter and lifts
+ * the air, so scrolling through the world is audible. Set from outside with `setScore`.
+ */
+const CHAPTER_ROOTS = [110, 130.81, 146.83, 87.31, 98];
+const score = { chapter: 0, energy: 0 };
+
+export function setScore(next: { chapter?: number; energy?: number }) {
+  const chapter = next.chapter ?? score.chapter;
+  const energy = Math.min(1, Math.max(0, next.energy ?? score.energy));
+  const changed = chapter !== score.chapter || Math.abs(energy - score.energy) > 0.02;
+  score.chapter = chapter;
+  score.energy = energy;
+  if (changed) pad?.follow();
 }
 
 let graph: Graph | null = null;
@@ -223,8 +242,16 @@ function startPad(g: Graph): Pad {
     nodes.push(o);
     return o;
   };
-  voice(-7, -0.35, 0.5);
+  const steady = voice(-7, -0.35, 0.5);
   const drifting = voice(8, 0.35, 0.42);
+  // a sub an octave down that only swells in with energy
+  const sub = ctx.createOscillator();
+  sub.type = 'sine';
+  sub.frequency.value = A2 / 2;
+  const subGain = ctx.createGain();
+  subGain.gain.value = 0;
+  sub.connect(subGain).connect(mix);
+  nodes.push(sub);
 
   // Air: band-passed noise whose level breathes on its own, slower LFO.
   const air = ctx.createBufferSource();
@@ -246,14 +273,31 @@ function startPad(g: Graph): Pad {
 
   nodes.forEach((n) => n.start(t));
 
+  const root = () => CHAPTER_ROOTS[score.chapter] ?? A2;
+
   // Every ~15s the second voice glides somewhere new over a few seconds.
   let step = 0;
   const drift = window.setInterval(() => {
     step = (step + 1) % DRIFT.length;
-    drifting.frequency.setTargetAtTime(A2 * DRIFT[step], ctx.currentTime, 2.6);
+    drifting.frequency.setTargetAtTime(root() * DRIFT[step], ctx.currentTime, 2.6);
   }, 15000);
 
+  const follow = () => {
+    const now = ctx.currentTime;
+    const r = root();
+    steady.frequency.setTargetAtTime(r, now, 0.9);
+    drifting.frequency.setTargetAtTime(r * DRIFT[step], now, 0.9);
+    sub.frequency.setTargetAtTime(r / 2, now, 0.9);
+    const e = score.energy;
+    lp.frequency.setTargetAtTime(420 + e * 1900, now, 0.25);
+    lp.Q.setTargetAtTime(1.4 + e * 3, now, 0.25);
+    airGain.gain.setTargetAtTime(0.16 + e * 0.22, now, 0.3);
+    subGain.gain.setTargetAtTime(e * 0.55, now, 0.3);
+  };
+  follow();
+
   return {
+    follow,
     stop: (at) => {
       window.clearInterval(drift);
       nodes.forEach((n) => {
