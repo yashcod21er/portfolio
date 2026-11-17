@@ -1,114 +1,104 @@
 @import "tailwindcss";
+/* Raw third-party downloads are reference only; don't generate classes from them. */
+@source not "../vendor-src";
 
+/*
+  YASH HOGADE · v2 — "Monsoon ink"
+  Committed single dark look. Charcoal ink with a cool teal bias, bone text,
+  and one accent: the ochre of the lime-washed wall in Yash's portrait.
+*/
 @theme {
-  --color-gallery: #F6F5F0;
-  --color-surface: #EFEDE7;
-  --color-card: #FFFFFF;
-  --color-border: #DAD8D1;
-  --color-charcoal: #111318;
-  --color-muted: #646873;
-  --color-cobalt: #2563EB;
-  --color-cyan: #39DFFF;
-  --color-softviolet: #9B7BFF;
+  --color-ink: #0b0d0e;        /* page background */
+  --color-ink-2: #121518;      /* raised surfaces */
+  --color-ink-3: #1a1e21;      /* hover surfaces */
+  --color-line: #252a2d;       /* hairlines */
+  --color-bone: #ece7df;       /* primary text */
+  --color-mute: #8b908b;       /* secondary text */
+  --color-ochre: #e3a23b;      /* the one accent */
+  --color-ochre-deep: #b97a22;
 
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-display: 'Space Grotesk', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --font-serif: "Instrument Serif", "Times New Roman", Georgia, serif;
+  --font-sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-quart: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-/* Light Editorial Design System Tokens */
 :root {
-  --bg-main: #F6F5F0;
-  --bg-card: #FFFFFF;
-  --bg-surface: #EFEDE7;
-  --bg-elevated: #F1EFEA;
-  --border-color: #DAD8D1;
-  --border-subtle: #E8E6DF;
-  --text-primary: #111318;
-  --text-secondary: #646873;
-  --text-muted: #8E929D;
-  --accent-blue: #2563EB;
-  --accent-cyan: #0284C7;
-  --accent-violet: #7C3AED;
+  color-scheme: dark;
+  --gutter: clamp(16px, 4vw, 56px);
 }
 
-/* Base styles */
 html {
-  scroll-behavior: smooth;
-  background-color: var(--bg-main);
-  color-scheme: light;
-  overflow-x: hidden;
-  max-width: 100vw;
+  background: var(--color-ink);
+  color: var(--color-bone);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   margin: 0;
-  background-color: var(--bg-main);
-  color: var(--text-primary);
-  overflow-x: hidden;
-  max-width: 100vw;
+  background: var(--color-ink);
+  color: var(--color-bone);
   font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: clip;
 }
 
-#root {
-  overflow-x: hidden;
-  max-width: 100vw;
-  position: relative;
+::selection { background: var(--color-ochre); color: var(--color-ink); }
+
+/* Element resets live in the base layer so Tailwind utilities always win. */
+@layer base {
+  :focus-visible { outline: 2px solid var(--color-ochre); outline-offset: 3px; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; }
 }
 
-/* Minimal Architectural Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-main);
-}
-::-webkit-scrollbar-thumb {
-  background: #DAD8D1;
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #B0ADA5;
-}
-
-/* Hairline border utility */
-.hairline {
-  border-color: var(--border-color);
-}
-
-/* Soft diffusion shadows */
-.shadow-studio {
-  box-shadow: 0 4px 20px -2px rgba(17, 19, 24, 0.05), 0 2px 6px -1px rgba(17, 19, 24, 0.03);
-}
-
-.shadow-studio-lg {
-  box-shadow: 0 12px 36px -4px rgba(17, 19, 24, 0.08), 0 4px 12px -2px rgba(17, 19, 24, 0.04);
-}
-
-/* Frosted glass */
-.glass-studio {
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-color);
-}
-
-/* Technical uppercase tag styling */
-.tech-tag {
+/* Shared typographic helpers — use these, don't redefine them.
+   In the components layer so Tailwind utilities can override them. */
+@layer components {
+.label {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: var(--color-mute);
+}
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 0.88;
+  font-variation-settings: "opsz" 96, "wdth" 75;
+  text-wrap: balance;
+}
+.serif-i { font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+.gutter {
+  padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+}
 }
 
-/* Accessibility: prefers-reduced-motion */
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* Custom cursor hides the native one only on fine pointers */
+@media (pointer: fine) {
+  html.has-cursor, html.has-cursor * { cursor: none !important; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
-    animation-duration: 0.01ms !important;
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
   }
 }

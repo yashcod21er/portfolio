@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 *.blend1
 Thumbs.db
+
+# local video generator outputs
+tools/ltx/*.log
+tools/ltx/*.mp4
+tools/ltx/*.jpg

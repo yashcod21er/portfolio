@@ -1,0 +1,13 @@
+{
+  "frames": 97,
+  "width": 768,
+  "height": 576,
+  "depth": true,
+  "look": null,
+  "loop": true,
+  "fps": 19.2,
+  "focus": {
+    "x": 0.52,
+    "y": 0.4
+  }
+}
